@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoppist/features/home/blocs/create_item_cubit.dart';
 import 'package:shoppist/features/home/blocs/shopping_list_cubit.dart';
-import 'package:shoppist/features/home/models/shopping_item.dart';
+import 'package:shoppist/features/home/widgets/create_new_item_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -79,19 +78,27 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () {
-              context.read<ShoppingListCubit>().addItem(ShoppingItemModel(
-                    name: Random().nextInt(10000).toString(),
-                    amount: 1,
-                    maxAmount: 2,
-                    type: 'type',
-                  ));
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
+                  ),
+                ),
+                builder: (_) => CreateNewItemWidget(
+                  shoppingCubit: BlocProvider.of<ShoppingListCubit>(context),
+                  createCubit: BlocProvider.of<CreateItemCubit>(context),
+                ),
+              );
             },
           ),
           const SizedBox(height: 20),
@@ -104,6 +111,7 @@ class HomePage extends StatelessWidget {
           const SizedBox(height: 20),
         ],
       ),
+      resizeToAvoidBottomInset: true,
     );
   }
 }

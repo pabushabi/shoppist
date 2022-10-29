@@ -11,7 +11,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
   ShoppingListCubit() : super(ShoppingListState.initial());
 
   addItem(ShoppingItemModel item) {
-    emit(state.copyWith(items: [...state.items, item]));
+    emit(state.copyWith(items: [item, ...state.items]));
   }
 
   removeItem() {
