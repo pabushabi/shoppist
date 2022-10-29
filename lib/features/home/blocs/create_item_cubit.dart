@@ -27,7 +27,7 @@ class CreateItemCubit extends Cubit<CreateItemState> {
   }
 
   nameChanged(String name) {
-    name = name;
+    this.name = name;
     // item.name = name;
   }
 
