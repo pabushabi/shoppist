@@ -20,7 +20,7 @@ class CreateItemCubit extends Cubit<CreateItemState> {
     // cubit.addItem(item);
     cubit.addItem(ShoppingItemModel(
       name: name,
-      amount: 0,
+      amount: amount,
       maxAmount: amount,
       type: 'type',
     ));

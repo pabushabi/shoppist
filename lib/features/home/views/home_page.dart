@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppist/features/home/blocs/create_item_cubit.dart';
 import 'package:shoppist/features/home/blocs/shopping_list_cubit.dart';
+import 'package:shoppist/features/home/models/shopping_item.dart';
 import 'package:shoppist/features/home/widgets/create_new_item_widget.dart';
+import 'package:shoppist/features/home/widgets/item_widget.dart';
+import 'package:shoppist/features/home/widgets/view_item_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,60 +20,24 @@ class HomePage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: BlocBuilder<ShoppingListCubit, ShoppingListState>(
             builder: (context, state) {
               return Column(
                 children: List.generate(
                   state.items.length,
-                  (index) => Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                            context: context,
-                            backgroundColor: Colors
-                                .primaries[index < 17 ? index : 17].shade100,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(25),
-                                topRight: Radius.circular(25),
-                              ),
-                            ),
-                            builder: (context) {
-                              return SizedBox(
-                                height: MediaQuery.of(context).size.height / 2,
-                                child: Center(
-                                  child: Text(state.items[index].name),
-                                ),
-                              );
-                            });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          color: Colors
-                              .primaries[index < 17 ? index : 17].shade100,
+                  (index) => ItemWidget(
+                    item: state.items[index],
+                    index: index,
+                    onPressed: () => context.read<ShoppingListCubit>().editItem(
+                          newItem: ShoppingItemModel(
+                            name: state.items[index].name,
+                            amount: state.items[index].amount - 1,
+                            maxAmount: state.items[index].maxAmount,
+                            type: state.items[index].type,
+                          ),
+                          oldIndex: index,
                         ),
-                        width: MediaQuery.of(context).size.width,
-                        height: 120,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              state.items[index].name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w200,
-                                fontSize: 20,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Text('${state.items[index].amount}/'
-                                '${state.items[index].maxAmount}'),
-                          ],
-                        ),
-                      ),
-                    ),
                   ),
                 ),
               );

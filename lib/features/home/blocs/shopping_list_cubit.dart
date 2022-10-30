@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:shoppist/features/home/models/shopping_item.dart';
 
 part 'shopping_list_state.dart';
+
 part 'shopping_list_cubit.freezed.dart';
 
 @injectable
@@ -21,5 +22,11 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
     } else {
       emit(state.copyWith(items: []));
     }
+  }
+
+  editItem({required ShoppingItemModel newItem, required int oldIndex}) {
+    var newList = state.items.toList();
+    newList.replaceRange(oldIndex, oldIndex + 1, [newItem]);
+    emit(state.copyWith(items: newList));
   }
 }
