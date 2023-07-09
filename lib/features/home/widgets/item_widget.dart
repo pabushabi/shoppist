@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoppist/core/ui_kit/modal_bottom_sheets/custom_bottom_sheets.dart';
+import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
 import 'package:shoppist/features/home/models/shopping_item.dart';
-import 'package:shoppist/features/home/widgets/view_item_widget.dart';
 
 class ItemWidget extends StatelessWidget {
   final ShoppingItemModel item;
   final int index;
-  final VoidCallback onPressed;
 
   const ItemWidget({
-    Key? key,
     required this.item,
     required this.index,
-    required this.onPressed,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -19,28 +19,14 @@ class ItemWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: GestureDetector(
-        onTap: () {
-          showModalBottomSheet(
-              context: context,
-              // backgroundColor:
-              //     Colors.primaries[index < 17 ? index : 17].shade100,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  topRight: Radius.circular(25),
-                ),
-              ),
-              builder: (context) {
-                return ViewItemWidget(item: item);
-              });
-        },
+        onTap: () => showViewItemBottomSheet(context, index: index),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
             color: Colors.primaries[index < 17 ? index : 17].shade100,
           ),
           width: MediaQuery.of(context).size.width,
-          height: 100,
+          height: 80,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -48,7 +34,6 @@ class ItemWidget extends StatelessWidget {
               Text(
                 item.name,
                 style: const TextStyle(
-                  fontWeight: FontWeight.w200,
                   fontSize: 22,
                 ),
               ),
@@ -76,7 +61,8 @@ class ItemWidget extends StatelessWidget {
               ),
               const SizedBox(width: 20),
               IconButton(
-                onPressed: onPressed,
+                onPressed: () =>
+                    context.read<ShoppingListCubit>().minusOne(index: index),
                 icon: const Icon(Icons.exposure_minus_1_rounded),
                 style: const ButtonStyle(
                   backgroundColor:
