@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shoppist/features/home/models/shopping_item.dart';
-import 'package:shoppist/features/home/widgets/create_new_item_widget.dart';
+import 'package:shoppist/features/home/widgets/create_or_edit_item_widget.dart';
 import 'package:shoppist/features/home/widgets/view_item_widget.dart';
+import 'package:shoppist/features/settings/widgets/settings_widget.dart';
 
 Future basicBottomSheet(
   BuildContext context, {
@@ -32,9 +33,7 @@ Future<void> showEditItemBottomSheet(
 ) =>
     basicBottomSheet(
       context,
-      child: CreateOrEditItemWidget(
-        editingItem: item,
-      ),
+      child: CreateOrEditItemWidget(editingItem: item),
     );
 
 Future<void> showViewItemBottomSheet(
@@ -42,3 +41,6 @@ Future<void> showViewItemBottomSheet(
   required int index,
 }) =>
     basicBottomSheet(context, child: ViewItemWidget(index: index));
+
+Future<void> showSettingsBottomSheet(BuildContext context) =>
+    basicBottomSheet(context, child: const SettingsWidget());

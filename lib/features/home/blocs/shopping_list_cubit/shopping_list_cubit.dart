@@ -1,13 +1,25 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:equatable/equatable.dart';
+import 'package:shoppist/core/services/injection.dart';
+import 'package:shoppist/core/utils/prefs_utils.dart';
 import 'package:shoppist/features/home/models/shopping_item.dart';
+import 'package:shoppist/features/home/repositories/shopping_list_repository.dart';
 
 part 'shopping_list_state.dart';
 
-part 'shopping_list_cubit.freezed.dart';
-
 class ShoppingListCubit extends Cubit<ShoppingListState> {
-  ShoppingListCubit() : super(ShoppingListState.initial());
+  final ShoppingListRepository _repository;
+
+  ShoppingListCubit(this._repository) : super(ShoppingListState.initial());
+
+  Future<void> getItems() async {
+    if (getIt<PrefsUtils>().isFirstOpen()) {
+      getIt<PrefsUtils>().setNotFirstOpen();
+    }
+    emit(state.copyWith(items: await _repository.getShoppingList()));
+  }
 
   void addItem({
     required String name,
@@ -21,38 +33,47 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
       maxAmount: maxCount ?? count,
       type: type ?? 'no type',
     );
-    emit(state.copyWith(items: [item, ...state.items]));
+    _repository.setShoppingListItem(item);
+    getItems();
   }
 
   void removeItem(ShoppingItemModel item) {
     if (state.items.isNotEmpty) {
       if (state.items.contains(item)) {
-        final List<ShoppingItemModel> newItems = [
-          ...state.items.getRange(0, state.items.indexOf(item)),
-          ...state.items
-              .getRange(state.items.indexOf(item) + 1, state.items.length),
-        ];
-        emit(state.copyWith(items: newItems, lastDeleted: item));
+        _repository.deleteShoppingListItem(item);
+        getItems();
       }
     } else {
       emit(state.copyWith(items: []));
     }
   }
 
-  void editItem({required ShoppingItemModel newItem, required int oldIndex}) {
-    final List<ShoppingItemModel> newList = state.items.toList();
-    newList.replaceRange(oldIndex, oldIndex + 1, [newItem]);
-    emit(state.copyWith(items: newList));
+  void returnDeleted() {
+    if (state.lastDeleted != null) {
+      addItem(
+        name: state.lastDeleted!.name,
+        count: state.lastDeleted!.amount,
+        maxCount: state.lastDeleted!.maxAmount,
+        type: state.lastDeleted!.type,
+      );
+    }
+  }
+
+  void editItem({required ShoppingItemModel newItem}) {
+    _repository.setShoppingListItem(newItem);
+    getItems();
   }
 
   void minusOne({required int index}) {
     final ShoppingItemModel newItem = ShoppingItemModel(
       name: state.items[index].name,
-      amount: state.items[index].amount - 1,
+      amount: (state.items[index].amount - 1 > 0)
+          ? state.items[index].amount - 1
+          : 0,
       maxAmount: state.items[index].maxAmount,
       type: state.items[index].type,
     );
-    editItem(newItem: newItem, oldIndex: index);
+    editItem(newItem: newItem);
   }
 
   void plusOne({required int index}) {
@@ -62,6 +83,16 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
       maxAmount: state.items[index].maxAmount,
       type: state.items[index].type,
     );
-    editItem(newItem: newItem, oldIndex: index);
+    editItem(newItem: newItem);
+  }
+
+  void resetCount({required int index}) {
+    final ShoppingItemModel newItem = ShoppingItemModel(
+      name: state.items[index].name,
+      amount: 0,
+      maxAmount: state.items[index].maxAmount,
+      type: state.items[index].type,
+    );
+    editItem(newItem: newItem);
   }
 }

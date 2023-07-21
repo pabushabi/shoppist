@@ -1,25 +1,51 @@
-import 'package:flutter/material.dart';
-import 'package:shoppist/features/home/models/shopping_item.dart';
-import 'package:shoppist/features/home/widgets/item_widget.dart';
+import 'dart:async';
 
-class HomeItemsListWidget extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
+import 'package:shoppist/features/home/models/shopping_item.dart';
+import 'package:shoppist/features/home/widgets/item_list_widget.dart';
+import 'package:swipe_refresh/swipe_refresh.dart';
+
+class HomeItemsListWidget extends StatefulWidget {
   final List<ShoppingItemModel> items;
 
   const HomeItemsListWidget({required this.items, Key? key}) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() => _HomeItemsListWidgetState();
+}
+class _HomeItemsListWidgetState extends State<HomeItemsListWidget> {
+  final _controller = StreamController<SwipeRefreshState>.broadcast();
+
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        children: List.generate(
-          items.length,
-          (index) => ItemWidget(
-            item: items[index],
-            index: index,
+    return SwipeRefresh.adaptive(
+      stateStream: _controller.stream,
+      onRefresh: () {
+        context.read<ShoppingListCubit>().getItems();
+        _controller.sink.add(SwipeRefreshState.hidden);
+      },
+      children: [
+        SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: List.generate(
+              widget.items.length,
+              (index) => ItemListWidget(
+                item: widget.items[index],
+                index: index,
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.close();
+    super.dispose();
   }
 }
