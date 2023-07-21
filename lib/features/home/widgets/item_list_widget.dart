@@ -4,11 +4,11 @@ import 'package:shoppist/core/ui_kit/modal_bottom_sheets/custom_bottom_sheets.da
 import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
 import 'package:shoppist/features/home/models/shopping_item.dart';
 
-class ItemWidget extends StatelessWidget {
+class ItemListWidget extends StatelessWidget {
   final ShoppingItemModel item;
   final int index;
 
-  const ItemWidget({
+  const ItemListWidget({
     required this.item,
     required this.index,
     Key? key,
@@ -31,32 +31,41 @@ class ItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(width: 30),
-              Text(
-                item.name,
-                style: const TextStyle(
-                  fontSize: 22,
+              Expanded(
+                child: Text(
+                  item.name,
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 20),
                 ),
               ),
-              const Spacer(),
-              RichText(
-                text: TextSpan(
-                  style: const TextStyle(
-                    color: Colors.black87,
-                    fontSize: 18,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: '${item.amount}',
-                      style: TextStyle(
-                        color: item.amount == 0 ? Colors.red : Colors.green,
+              const SizedBox(width: 20),
+              Expanded(
+                child: RichText(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.end,
+                  text: TextSpan(
+                    style: const TextStyle(
+                      color: Colors.black87,
+                      fontSize: 18,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: '${item.amount}',
+                        style: TextStyle(
+                          color: item.amount == 0 ? Colors.red : Colors.green,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                    const TextSpan(text: '/'),
-                    TextSpan(
-                      text: '${item.maxAmount}',
-                      style: const TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                  ],
+                      const TextSpan(text: '/'),
+                      TextSpan(
+                        text: '${item.maxAmount}',
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(width: 20),

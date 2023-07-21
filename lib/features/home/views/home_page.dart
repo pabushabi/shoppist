@@ -4,6 +4,7 @@ import 'package:shoppist/core/ui_kit/modal_bottom_sheets/custom_bottom_sheets.da
 import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
 import 'package:shoppist/features/home/widgets/home_empty_list_widget.dart';
 import 'package:shoppist/features/home/widgets/home_items_list_widget.dart';
+import 'package:shoppist/i18n/strings.g.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,6 +15,12 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('shoppist'),
+        actions: [
+          IconButton(
+            onPressed: () => showSettingsBottomSheet(context),
+            icon: const Icon(Icons.settings),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -23,16 +30,13 @@ class HomePage extends StatelessWidget {
             if (state.lastDeleted != null) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Deleted ${state.lastDeleted!.name}'),
+                  content: Text('${t.deleted} ${state.lastDeleted!.name}'),
                   duration: const Duration(seconds: 4),
                   behavior: SnackBarBehavior.floating,
                   action: SnackBarAction(
-                    label: 'undo',
-                    onPressed: () => context.read<ShoppingListCubit>().addItem(
-                          name: state.lastDeleted!.name,
-                          count: state.lastDeleted!.amount,
-                          type: state.lastDeleted!.type,
-                        ),
+                    label: t.undo,
+                    onPressed: () =>
+                        context.read<ShoppingListCubit>().returnDeleted(),
                   ),
                 ),
               );

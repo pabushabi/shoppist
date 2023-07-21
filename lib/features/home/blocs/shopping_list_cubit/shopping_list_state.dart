@@ -1,11 +1,25 @@
 part of 'shopping_list_cubit.dart';
 
-@freezed
-class ShoppingListState with _$ShoppingListState {
-  const factory ShoppingListState(
-    List<ShoppingItemModel> items, {
+class ShoppingListState extends Equatable {
+  final List<ShoppingItemModel> items;
+  final ShoppingItemModel? lastDeleted;
+
+  const ShoppingListState(
+    this.items, {
+    this.lastDeleted,
+  });
+
+  ShoppingListState copyWith({
+    List<ShoppingItemModel>? items,
     ShoppingItemModel? lastDeleted,
-  }) = _ShoppingListState;
+  }) =>
+      ShoppingListState(
+        items ?? this.items,
+        lastDeleted: lastDeleted ?? this.lastDeleted,
+      );
 
   factory ShoppingListState.initial() => const ShoppingListState([]);
+
+  @override
+  List<Object?> get props => [items, lastDeleted];
 }

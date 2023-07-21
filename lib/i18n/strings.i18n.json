@@ -1,0 +1,24 @@
+{
+  "name": "Name",
+  "current_count": "Current count",
+  "max_count": "Max count",
+  "type": "Type",
+  "save": "Save",
+  "create_new": "Create new item",
+  "create": "Create",
+  "edit": "Edit item",
+  "empty": "It`s too empty here, maybe create a new one?",
+  "deleted": "Deleted",
+  "undo": "Undo",
+  "add": "Add",
+  "settings": {
+    "settings": "Settings",
+    "system": "System",
+    "language": "Language",
+    "theme": "Theme",
+    "family_code": "Family code",
+    "enter_code": "Enter new family code",
+    "note_code": "Note: all old items you added will stay in old family and wont be transfderred to new"
+  },
+  "cancel": "Cancel"
+}
