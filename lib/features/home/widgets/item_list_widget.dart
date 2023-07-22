@@ -53,15 +53,15 @@ class ItemListWidget extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                        text: '${item.amount}',
+                        text: item.amountFormatted,
                         style: TextStyle(
-                          color: item.amount == 0 ? Colors.red : Colors.green,
+                          color: item.amount <= 0 ? Colors.red : Colors.green,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const TextSpan(text: '/'),
+                      // const TextSpan(text: '/'),
                       TextSpan(
-                        text: '${item.maxAmount}',
+                        text: '/${item.maxAmountFormatted}',
                         style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ],

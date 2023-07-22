@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shoppist/core/services/injection.dart';
@@ -14,7 +12,6 @@ class FamilyCodeCubit extends Cubit<FamilyCodeState> {
   }
 
   void init() {
-    log(getIt<PrefsUtils>().getFamilyCode(), name: 'code');
     if (getIt<PrefsUtils>().isFirstOpen() ||
         getIt<PrefsUtils>().getFamilyCode().isEmpty) {
       final code = const Uuid().v4().split('-').first;

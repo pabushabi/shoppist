@@ -64,9 +64,26 @@ class ViewItemWidget extends StatelessWidget {
               overflow: TextOverflow.clip,
             ),
             const SizedBox(height: 10),
-            Text(
-              '${t.current_count}: ${state.items.isNotEmpty ? state.items[index].amount : 0}/${state.items.isNotEmpty ? state.items[index].maxAmount : 0}',
-              style: const TextStyle(fontSize: 16),
+            RichText(
+              text: TextSpan(
+                style: const TextStyle(fontSize: 16, color: Colors.black87),
+              children: [
+                  TextSpan(text: '${t.current_count}: '),
+                  TextSpan(
+                    text:
+                        state.items[index].amountFormatted,
+                    style: TextStyle(
+                      color: state.items[index].amount <= 0
+                          ? Colors.red
+                          : Colors.green,
+                    ),
+                  ),
+                  TextSpan(
+                    text:
+                        '/${state.items[index].maxAmountFormatted }',
+                  ),
+                ],
+              ),
               textAlign: TextAlign.start,
             ),
             const SizedBox(height: 10),

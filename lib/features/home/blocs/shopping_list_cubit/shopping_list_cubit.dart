@@ -23,8 +23,8 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
 
   void addItem({
     required String name,
-    required int count,
-    int? maxCount,
+    required double count,
+    double? maxCount,
     String? type,
   }) {
     final ShoppingItemModel item = ShoppingItemModel(
