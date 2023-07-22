@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +19,6 @@ class L18nCubit extends Cubit<L18nState> {
   late StreamSubscription<String> _localeSubscription;
 
   void getCurrentLocale() {
-    log('get current locale');
     _localeSubscription = _l18nRepository.getLocale().listen(
       (locale) {
         emit(state.copyWith(languageCode: locale));

@@ -173,8 +173,8 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
             if (widget.editingItem == null) {
               context.read<ShoppingListCubit>().addItem(
                     name: _nameController.text,
-                    count: int.parse(_countController.text),
-                    maxCount: int.parse(
+                    count: double.parse(_countController.text),
+                    maxCount: double.parse(
                       _maxCountController.text.isNotEmpty
                           ? _maxCountController.text
                           : _countController.text,
@@ -184,8 +184,8 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
               context.read<ShoppingListCubit>().editItem(
                     newItem: ShoppingItemModel(
                       name: _nameController.text,
-                      amount: int.parse(_countController.text),
-                      maxAmount: int.parse(_maxCountController.text),
+                      amount: double.parse(_countController.text),
+                      maxAmount: double.parse(_maxCountController.text),
                       type: widget.editingItem!.type,
                     ),
                     // oldIndex: context
