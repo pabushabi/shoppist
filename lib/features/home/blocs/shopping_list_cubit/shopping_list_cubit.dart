@@ -6,6 +6,7 @@ import 'package:shoppist/core/services/injection.dart';
 import 'package:shoppist/core/utils/prefs_utils.dart';
 import 'package:shoppist/features/home/models/shopping_item.dart';
 import 'package:shoppist/features/home/repositories/shopping_list_repository.dart';
+import 'package:uuid/uuid.dart';
 
 part 'shopping_list_state.dart';
 
@@ -13,6 +14,8 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
   final ShoppingListRepository _repository;
 
   ShoppingListCubit(this._repository) : super(ShoppingListState.initial());
+
+  final _uuid = const Uuid();
 
   Future<void> getItems() async {
     if (getIt<PrefsUtils>().isFirstOpen()) {
@@ -26,8 +29,10 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
     required double count,
     double? maxCount,
     String? type,
+    String? id,
   }) {
     final ShoppingItemModel item = ShoppingItemModel(
+      id: id ?? _uuid.v4().split('-').last,
       name: name,
       amount: count,
       maxAmount: maxCount ?? count,
@@ -51,6 +56,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
   void returnDeleted() {
     if (state.lastDeleted != null) {
       addItem(
+        id: state.lastDeleted!.id,
         name: state.lastDeleted!.name,
         count: state.lastDeleted!.amount,
         maxCount: state.lastDeleted!.maxAmount,
@@ -66,6 +72,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
 
   void minusOne({required int index}) {
     final ShoppingItemModel newItem = ShoppingItemModel(
+      id: state.items[index].id,
       name: state.items[index].name,
       amount: (state.items[index].amount - 1 > 0)
           ? state.items[index].amount - 1
@@ -78,6 +85,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
 
   void plusOne({required int index}) {
     final ShoppingItemModel newItem = ShoppingItemModel(
+      id: state.items[index].id,
       name: state.items[index].name,
       amount: state.items[index].amount + 1,
       maxAmount: state.items[index].maxAmount,
@@ -88,6 +96,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
 
   void resetCount({required int index}) {
     final ShoppingItemModel newItem = ShoppingItemModel(
+      id: state.items[index].id,
       name: state.items[index].name,
       amount: 0,
       maxAmount: state.items[index].maxAmount,

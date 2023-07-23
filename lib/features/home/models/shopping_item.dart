@@ -1,10 +1,12 @@
 class ShoppingItemModel {
+  String id;
   String name;
   double amount;
   double maxAmount;
   String type;
 
   ShoppingItemModel({
+    required this.id,
     required this.name,
     required this.amount,
     required this.maxAmount,
@@ -12,6 +14,7 @@ class ShoppingItemModel {
   });
 
   factory ShoppingItemModel.empty() => ShoppingItemModel(
+        id: '',
         name: '',
         amount: 0,
         maxAmount: 0,
@@ -19,6 +22,7 @@ class ShoppingItemModel {
       );
 
   Map<String, dynamic> toJson() => {
+        'id': id,
         'name': name,
         'amount': amount,
         'maxAmount': maxAmount,
@@ -27,6 +31,7 @@ class ShoppingItemModel {
 
   factory ShoppingItemModel.fromJson(Map<String, dynamic> json) =>
       ShoppingItemModel(
+        id: json['id'],
         name: json['name'],
         amount: double.parse('${json['amount']}'),
         maxAmount: double.parse('${json['maxAmount']}'),
@@ -35,7 +40,7 @@ class ShoppingItemModel {
 
   @override
   String toString() {
-    return '{name: $name, amount: $amount, maxAmount: $maxAmount, type: $type}';
+    return '{id: $id: name: $name, amount: $amount/$maxAmount, type: $type}';
   }
 
   String get amountFormatted =>
