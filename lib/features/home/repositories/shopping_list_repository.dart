@@ -35,7 +35,7 @@ class ShoppingListRepositoryImpl extends ShoppingListRepository {
   void setShoppingListItem(ShoppingItemModel item) {
     _firestore
         .collection('family-${getIt<FamilyCodeCubit>().state.code}')
-        .doc('${item.type}-${item.name}')
+        .doc(item.id)
         .set(item.toJson());
   }
 
@@ -44,7 +44,7 @@ class ShoppingListRepositoryImpl extends ShoppingListRepository {
     log('${item.type}-${item.name}');
     _firestore
         .collection('family-${getIt<FamilyCodeCubit>().state.code}')
-        .doc('${item.type}-${item.name}')
+        .doc(item.id)
         .delete();
   }
 }

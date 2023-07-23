@@ -183,6 +183,7 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
             } else {
               context.read<ShoppingListCubit>().editItem(
                     newItem: ShoppingItemModel(
+                      id: widget.editingItem!.id,
                       name: _nameController.text,
                       amount: double.parse(_countController.text),
                       maxAmount: double.parse(_maxCountController.text),
