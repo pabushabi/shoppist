@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
-import 'package:shoppist/features/home/models/shopping_item.dart';
+import 'package:shoppist/features/home/models/shopping_item_model.dart';
 import 'package:shoppist/features/home/widgets/item_list_widget.dart';
 import 'package:swipe_refresh/swipe_refresh.dart';
 

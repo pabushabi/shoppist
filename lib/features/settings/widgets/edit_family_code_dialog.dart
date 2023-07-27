@@ -69,7 +69,6 @@ class EditFamilyCodeDialog extends StatelessWidget {
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),

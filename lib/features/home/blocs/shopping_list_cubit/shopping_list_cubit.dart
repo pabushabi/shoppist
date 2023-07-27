@@ -4,7 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shoppist/core/services/injection.dart';
 import 'package:shoppist/core/utils/prefs_utils.dart';
-import 'package:shoppist/features/home/models/shopping_item.dart';
+import 'package:shoppist/features/home/models/shopping_item_model.dart';
+import 'package:shoppist/features/home/models/tag_model.dart';
 import 'package:shoppist/features/home/repositories/shopping_list_repository.dart';
 import 'package:uuid/uuid.dart';
 
@@ -28,7 +29,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
     required String name,
     required double count,
     double? maxCount,
-    String? type,
+    TagModel? tag,
     String? id,
   }) {
     final ShoppingItemModel item = ShoppingItemModel(
@@ -36,7 +37,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
       name: name,
       amount: count,
       maxAmount: maxCount ?? count,
-      type: type ?? 'no type',
+      tag: tag,
     );
     _repository.setShoppingListItem(item);
     getItems();
@@ -60,7 +61,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
         name: state.lastDeleted!.name,
         count: state.lastDeleted!.amount,
         maxCount: state.lastDeleted!.maxAmount,
-        type: state.lastDeleted!.type,
+        tag: state.lastDeleted!.tag,
       );
     }
   }
@@ -78,7 +79,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
           ? state.items[index].amount - 1
           : 0,
       maxAmount: state.items[index].maxAmount,
-      type: state.items[index].type,
+      tag: state.items[index].tag,
     );
     editItem(newItem: newItem);
   }
@@ -89,7 +90,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
       name: state.items[index].name,
       amount: state.items[index].amount + 1,
       maxAmount: state.items[index].maxAmount,
-      type: state.items[index].type,
+      tag: state.items[index].tag,
     );
     editItem(newItem: newItem);
   }
@@ -100,7 +101,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
       name: state.items[index].name,
       amount: 0,
       maxAmount: state.items[index].maxAmount,
-      type: state.items[index].type,
+      tag: state.items[index].tag,
     );
     editItem(newItem: newItem);
   }
