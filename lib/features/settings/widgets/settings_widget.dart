@@ -1,9 +1,10 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shoppist/core/constants/constants.dart';
 import 'package:shoppist/core/ui_kit/modal_bottom_sheets/bottom_sheet_layout.dart';
+// import 'package:shoppist/core/ui_kit/modal_bottom_sheets/custom_bottom_sheets.dart';
 import 'package:shoppist/features/l18n/blocs/l18n_cubit.dart';
 import 'package:shoppist/features/settings/blocs/family_code_cubit.dart';
 import 'package:shoppist/features/settings/widgets/edit_family_code_dialog.dart';
@@ -44,7 +45,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             ),
             BlocBuilder<L18nCubit, L18nState>(
               builder: (context, state) {
-                return DropdownButton(
+                return DropdownButton2(
                   value: state.languageCode,
                   style: const TextStyle(
                     fontSize: 16,
@@ -72,8 +73,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             ),
           ],
         ),
+        const SizedBox(height: 10),
         Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               t.settings.family_code,
@@ -81,43 +82,33 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             ),
             const Spacer(),
             SizedBox(
-              width: 120,
-              child: TextField(
-                controller: _familyCodeController,
-                onSubmitted: (val) {
-                  context.read<FamilyCodeCubit>().changeCode(val);
-                },
-                enabled: false,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 8,
+              width: 144,
+              child: GestureDetector(
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => EditFamilyCodeDialog(
+                    newCodeController: _newCodeController,
                   ),
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
+                ),
+                child: TextField(
+                  controller: _familyCodeController,
+                  enabled: false,
+                  decoration: InputDecoration(
+                    suffixIcon: const Icon(
+                      Icons.edit,
+                      color: Colors.black87,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 8,
+                    ),
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
                   ),
                 ),
               ),
-            ),
-            IconButton(
-              onPressed: () => showDialog(
-                context: context,
-                builder: (context) =>
-                    EditFamilyCodeDialog(newCodeController: _newCodeController),
-              ),
-              icon: const Icon(Icons.edit),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            IconButton(
-              onPressed: () async => await Clipboard.setData(
-                ClipboardData(text: _familyCodeController.text),
-              ),
-              icon: const Icon(Icons.copy),
             ),
             IconButton(
               onPressed: () => Share.share(_familyCodeController.text),
@@ -125,6 +116,20 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             ),
           ],
         ),
+        const SizedBox(height: 10),
+        // Row(
+        //   children: [
+        //     Text(
+        //       t.tag.menu,
+        //       style: const TextStyle(fontSize: 16),
+        //     ),
+        //     const Spacer(),
+        //     OutlinedButton(
+        //       onPressed: () => showTagEditBottomSheet(context),
+        //       child: Text(t.tag.enter),
+        //     ),
+        //   ],
+        // ),
         // Row(
         //   children: [
         //     Text(t.settings.theme),

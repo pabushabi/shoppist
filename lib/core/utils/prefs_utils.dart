@@ -31,4 +31,12 @@ class PrefsUtils {
     if (familyCode != null) return familyCode;
     return '';
   }
+
+  Future<void> saveTags(List<String> tags) async {
+    await prefs.setStringList(PrefsKeys.tags, tags);
+  }
+
+  List<String>? getTags() => prefs.getStringList(PrefsKeys.tags);
+
+  void deleteTags() => prefs.remove(PrefsKeys.tags);
 }

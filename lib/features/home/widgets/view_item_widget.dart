@@ -58,7 +58,7 @@ class ViewItemWidget extends StatelessWidget {
               ],
             ),
             Text(
-              '${t.name}: ${state.items.isNotEmpty ? state.items[index].name : t.deleted}',
+              '${t.name}: ${(index < state.items.length) ? state.items[index].name : t.deleted}',
               style: const TextStyle(fontSize: 16),
               softWrap: true,
               overflow: TextOverflow.clip,
@@ -67,11 +67,10 @@ class ViewItemWidget extends StatelessWidget {
             RichText(
               text: TextSpan(
                 style: const TextStyle(fontSize: 16, color: Colors.black87),
-              children: [
-                  TextSpan(text: '${t.current_count}: '),
+                children: [
+                  TextSpan(text: '${t.current_count} '),
                   TextSpan(
-                    text:
-                        state.items[index].amountFormatted,
+                    text: state.items[index].amountFormatted,
                     style: TextStyle(
                       color: state.items[index].amount <= 0
                           ? Colors.red
@@ -79,36 +78,28 @@ class ViewItemWidget extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text:
-                        '/${state.items[index].maxAmountFormatted }',
+                    text: '/${state.items[index].maxAmountFormatted}',
                   ),
                 ],
               ),
               textAlign: TextAlign.start,
             ),
             const SizedBox(height: 10),
-            Row(
-              children: [
-                Text(
-                  t.type,
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(width: 20),
-                Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: ChoiceChip(
-                    shape: const StadiumBorder(),
-                    label: Text(
-                      state.items.isNotEmpty
-                          ? state.items[index].type
-                          : 'no type',
-                    ),
-                    selected: true,
-                    onSelected: (bool selected) {},
+            if (state.items[index].tag != null)
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: ChoiceChip(
+                  shape: const StadiumBorder(),
+                  selected: true,
+                  onSelected: (bool selected) {},
+                  selectedColor: state.items[index].tag?.color.withOpacity(.7),
+                  label: Text(
+                    state.items.isNotEmpty
+                        ? state.items[index].tag?.name ?? ''
+                        : 'no type',
                   ),
                 ),
-              ],
-            ),
+              ),
             const SizedBox(height: 40),
           ],
         );

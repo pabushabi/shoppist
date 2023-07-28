@@ -2,13 +2,21 @@
   "name": "Name",
   "current_count": "Current count",
   "max_count": "Max count",
-  "type": "Type",
+  "tag": {
+    "tag": "Tag",
+    "add": "Add new tag",
+    "enter_name": "Name:",
+    "choose_color": "Color:",
+    "menu": "Enter tag editing menu",
+    "enter": "Enter"
+  },
   "save": "Save",
   "create_new": "Create new item",
   "create": "Create",
-  "edit": "Edit item",
+  "edit": "Edit",
   "empty": "It`s too empty here, maybe create a new one?",
   "deleted": "Deleted",
+  "delete": "Delete",
   "undo": "Undo",
   "add": "Add",
   "settings": {
@@ -20,5 +28,25 @@
     "enter_code": "Enter new family code",
     "note_code": "Note: all old items you added will stay in old family and wont be transfderred to new"
   },
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "colors": {
+    "red": "Red",
+    "pink": "Pink",
+    "purple": "Purple",
+    "deepPurple": "Deep purple",
+    "indigo": "Indigo",
+    "blue": "Blue",
+    "lightBlue": "Light blue",
+    "cyan": "Cyan",
+    "teal": "Teal",
+    "green": "Green",
+    "lightGreen": "Light green",
+    "lime": "Lime",
+    "yellow": "Yellow",
+    "amber": "Amber",
+    "orange": "Orange",
+    "deepOrange": "Deep orange",
+    "brown": "Brown",
+    "blueGrey": "Blue grey"
+  }
 }

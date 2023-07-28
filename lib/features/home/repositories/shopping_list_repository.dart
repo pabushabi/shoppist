@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shoppist/core/services/injection.dart';
-import 'package:shoppist/features/home/models/shopping_item.dart';
+import 'package:shoppist/features/home/models/shopping_item_model.dart';
 import 'package:shoppist/features/settings/blocs/family_code_cubit.dart';
 
 abstract class ShoppingListRepository {
@@ -41,7 +40,6 @@ class ShoppingListRepositoryImpl extends ShoppingListRepository {
 
   @override
   void deleteShoppingListItem(ShoppingItemModel item) {
-    log('${item.type}-${item.name}');
     _firestore
         .collection('family-${getIt<FamilyCodeCubit>().state.code}')
         .doc(item.id)

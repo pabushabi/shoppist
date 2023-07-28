@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppist/core/ui_kit/modal_bottom_sheets/custom_bottom_sheets.dart';
 import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
-import 'package:shoppist/features/home/models/shopping_item.dart';
+import 'package:shoppist/features/home/models/shopping_item_model.dart';
 
 class ItemListWidget extends StatelessWidget {
   final ShoppingItemModel item;
@@ -23,7 +23,9 @@ class ItemListWidget extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            color: Colors.primaries[index < 17 ? index : 17].shade100,
+            color:
+                item.tag?.color.withOpacity(.5) ?? Colors.primaries[5].shade100,
+            // color: Colors.primaries[index < 17 ? index : 17].shade100,
           ),
           width: MediaQuery.of(context).size.width,
           height: 80,
