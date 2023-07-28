@@ -1,6 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:shoppist/core/services/injection.dart';
+import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
+import 'package:shoppist/features/home/models/shopping_item_model.dart';
 import 'package:shoppist/features/home/models/tag_model.dart';
 import 'package:shoppist/features/home/repositories/tags_repository.dart';
 
@@ -10,10 +13,10 @@ class TagsCubit extends Cubit<TagsState> {
   final TagsRepository _repository;
 
   TagsCubit(this._repository) : super(const TagsState([])) {
-    init();
+    getTags();
   }
 
-  void init() {
+  void getTags() {
     emit(state.copyWith(tags: _repository.getTags()));
   }
 
@@ -23,15 +26,33 @@ class TagsCubit extends Cubit<TagsState> {
     emit(state.copyWith(tags: [newTag, ...state.tags]));
   }
 
-  void editTag(TagModel tag, {String? newName, Color? newColor}) {
-    if (!state.tags.contains(tag)) return;
+  void editTag(TagModel oldTag, {String? newName, Color? newColor}) {
+    if (!state.tags.contains(oldTag)) return;
     final tags = state.tags;
-    tags.replaceRange(
-      tags.indexOf(tag),
-      tags.indexOf(tag) + 1,
-      [TagModel(name: newName ?? tag.name, color: newColor ?? tag.color)],
+    final newTag = TagModel(
+      name: newName ?? oldTag.name,
+      color: newColor ?? oldTag.color,
     );
-    _repository.removeTag(tag);
+    tags.replaceRange(
+      tags.indexOf(oldTag),
+      tags.indexOf(oldTag) + 1,
+      [newTag],
+    );
+    final items = getIt<ShoppingListCubit>().state.items;
+    for (var item in items) {
+      if (item.tag == oldTag) {
+        getIt<ShoppingListCubit>().editItem(
+          newItem: ShoppingItemModel(
+            id: item.id,
+            name: item.name,
+            amount: item.amount,
+            maxAmount: item.maxAmount,
+            tag: newTag,
+          ),
+        );
+      }
+    }
+    _repository.removeTag(oldTag);
     _repository.saveTags(tags);
     emit(state.copyWith(tags: tags));
   }
@@ -42,6 +63,20 @@ class TagsCubit extends Cubit<TagsState> {
         ...state.tags.getRange(0, state.tags.indexOf(tag)),
         ...state.tags.getRange(state.tags.indexOf(tag) + 1, state.tags.length),
       ];
+      final items = getIt<ShoppingListCubit>().state.items;
+      for (var item in items) {
+        if (item.tag == tag) {
+          getIt<ShoppingListCubit>().editItem(
+            newItem: ShoppingItemModel(
+              id: item.id,
+              name: item.name,
+              amount: item.amount,
+              maxAmount: item.maxAmount,
+              tag: null,
+            ),
+          );
+        }
+      }
       _repository.removeTag(tag);
       emit(state.copyWith(tags: newTags));
     }

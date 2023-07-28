@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppist/features/home/blocs/tags_cubit/tags_cubit.dart';
 import 'package:shoppist/features/home/models/shopping_item_model.dart';
 import 'package:shoppist/features/home/models/tag_model.dart';
-import 'package:shoppist/features/home/widgets/add_tag_dialog.dart';
+import 'package:shoppist/features/home/widgets/add_or_edit_tag_dialog.dart';
 import 'package:shoppist/i18n/strings.g.dart';
 
 class CreateOrEditItemWidget extends StatefulWidget {
@@ -42,7 +42,6 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
         ? TextEditingController()
         : TextEditingController(text: '${widget.editingItem!.maxAmount}');
   }
-
 
   @override
   void dispose() {
@@ -155,6 +154,7 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
         ),
         const SizedBox(height: 10),
         BlocBuilder<TagsCubit, TagsState>(
+          buildWhen: (prev, next) => prev.tags != next.tags,
           builder: (context, state) {
             return Wrap(
               children: [
@@ -168,7 +168,7 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
                         onLongPressStart: (details) => _showContextMenu(
                           context,
                           details.globalPosition,
-                          index,
+                          state.tags[index],
                         ),
                         child: ChoiceChip(
                           key: UniqueKey(),
@@ -196,7 +196,7 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (context) => const AddTagDialog(),
+                        builder: (context) => const AddOrEditTagDialog(),
                       );
                     },
                   ),
@@ -256,7 +256,7 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
     );
   }
 
-  void _showContextMenu(BuildContext context, Offset offset, int index) {
+  void _showContextMenu(BuildContext context, Offset offset, TagModel tag) {
     HapticFeedback.vibrate();
     final RenderBox overlay =
         Overlay.of(context).context.findRenderObject() as RenderBox;
@@ -283,8 +283,13 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
       if (selectedOption != null) {
         switch (selectedOption) {
           case 'edit': //TODO
+            showDialog(
+              context: context,
+              builder: (context) => AddOrEditTagDialog(tagToEdit: tag),
+            );
             break;
           case 'delete':
+            context.read<TagsCubit>().removeTag(tag);
             break;
         }
       }

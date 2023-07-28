@@ -3,17 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppist/core/constants/constants.dart';
 import 'package:shoppist/features/home/blocs/tags_cubit/tags_cubit.dart';
+import 'package:shoppist/features/home/models/tag_model.dart';
 import 'package:shoppist/i18n/strings.g.dart';
 
-class AddTagDialog extends StatefulWidget {
-  const AddTagDialog({Key? key}) : super(key: key);
+class AddOrEditTagDialog extends StatefulWidget {
+  final TagModel? tagToEdit;
+
+  const AddOrEditTagDialog({this.tagToEdit, Key? key}) : super(key: key);
 
   @override
-  State<AddTagDialog> createState() => _AddTagDialogState();
+  State<AddOrEditTagDialog> createState() => _AddOrEditTagDialogState();
 }
 
-class _AddTagDialogState extends State<AddTagDialog> {
-  final TextEditingController nameController = TextEditingController();
+class _AddOrEditTagDialogState extends State<AddOrEditTagDialog> {
+  late final TextEditingController nameController = (widget.tagToEdit == null)
+      ? TextEditingController()
+      : TextEditingController(text: widget.tagToEdit!.name);
   MaterialColor? chosenColor;
 
   @override
@@ -29,13 +34,13 @@ class _AddTagDialogState extends State<AddTagDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              t.tag.add,
+              widget.tagToEdit == null ? t.tag.add : t.edit,
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -99,10 +104,19 @@ class _AddTagDialogState extends State<AddTagDialog> {
                 const SizedBox(width: 10),
                 FilledButton(
                   onPressed: () {
-                    context.read<TagsCubit>().addTag(
-                          nameController.text,
-                          color: chosenColor,
-                        );
+                    if (widget.tagToEdit == null) {
+                      context.read<TagsCubit>().addTag(
+                            nameController.text,
+                            color: chosenColor,
+                          );
+                    } else {
+                      context.read<TagsCubit>().editTag(
+                            widget.tagToEdit!,
+                            newName: nameController.text,
+                            newColor: chosenColor,
+                          );
+                      context.read<TagsCubit>().getTags();
+                    }
                     Navigator.pop(context);
                     // context.read<ShoppingListCubit>().getItems();
                   },

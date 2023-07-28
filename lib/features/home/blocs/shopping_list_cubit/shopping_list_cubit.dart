@@ -22,7 +22,12 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
     if (getIt<PrefsUtils>().isFirstOpen()) {
       getIt<PrefsUtils>().setNotFirstOpen();
     }
-    emit(state.copyWith(items: await _repository.getShoppingList()));
+    emit(
+      state.copyWith(
+        items: await _repository.getShoppingList(),
+        lastDeleted: state.lastDeleted,
+      ),
+    );
   }
 
   void addItem({
@@ -48,6 +53,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
       if (state.items.contains(item)) {
         _repository.deleteShoppingListItem(item);
         getItems();
+        emit(state.copyWith(lastDeleted: item));
       }
     } else {
       emit(state.copyWith(items: []));

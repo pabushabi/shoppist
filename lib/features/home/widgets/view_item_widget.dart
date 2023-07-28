@@ -58,7 +58,7 @@ class ViewItemWidget extends StatelessWidget {
               ],
             ),
             Text(
-              '${t.name}: ${state.items.isNotEmpty ? state.items[index].name : t.deleted}',
+              '${t.name}: ${(index < state.items.length) ? state.items[index].name : t.deleted}',
               style: const TextStyle(fontSize: 16),
               softWrap: true,
               overflow: TextOverflow.clip,
