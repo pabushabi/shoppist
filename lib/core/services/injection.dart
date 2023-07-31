@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shoppist/core/services/notification_controller.dart';
 import 'package:shoppist/core/utils/prefs_utils.dart';
 import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
 import 'package:shoppist/features/home/blocs/tags_cubit/tags_cubit.dart';
@@ -8,7 +9,9 @@ import 'package:shoppist/features/home/repositories/shopping_list_repository.dar
 import 'package:shoppist/features/home/repositories/tags_repository.dart';
 import 'package:shoppist/features/l18n/blocs/l18n_cubit.dart';
 import 'package:shoppist/features/l18n/repositories/l18n_repository.dart';
-import 'package:shoppist/features/settings/blocs/family_code_cubit.dart';
+import 'package:shoppist/features/settings/blocs/family_code/family_code_cubit.dart';
+import 'package:shoppist/features/settings/blocs/notifications/notifications_cubit.dart';
+import 'package:shoppist/features/settings/blocs/repositories/notifications_repository.dart';
 
 /// Инстанс [GetIt]
 final GetIt getIt = GetIt.instance;
@@ -29,6 +32,16 @@ Future<void> init() async {
   );
   //===================FAMILY==========
   getIt.registerSingleton<FamilyCodeCubit>(FamilyCodeCubit());
+  //===================PUSH============
+  getIt.registerLazySingleton<NotificationController>(
+    () => NotificationController(),
+  );
+  getIt.registerLazySingleton<NotificationSettingsRepository>(
+    () => NotificationSettingsRepositoryImpl(),
+  );
+  getIt.registerLazySingleton<NotificationsCubit>(
+    () => NotificationsCubit(getIt()),
+  );
   //===================TAGS============
   getIt.registerLazySingleton<TagsRepository>(() => TagsRepositoryImpl());
   getIt.registerLazySingleton<TagsCubit>(() => TagsCubit(getIt()));

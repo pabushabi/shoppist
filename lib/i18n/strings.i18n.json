@@ -48,5 +48,11 @@
     "deepOrange": "Deep orange",
     "brown": "Brown",
     "blueGrey": "Blue grey"
+  },
+  "push": {
+    "turn_on": "Turn on notifications",
+    "is_empty": "Notify me when stocks are almost out",
+    "reports": "Daily reports",
+    "time_of_reports": "Time of daily reports"
   }
 }

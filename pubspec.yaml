@@ -31,6 +31,8 @@ dependencies:
   uuid: ^3.0.7
   share_plus: ^7.0.2
   dropdown_button2: ^2.3.7
+  awesome_notifications: ^0.6.19
+  permission_handler: ^10.4.3
 
 dev_dependencies:
   flutter_test:

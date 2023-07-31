@@ -12,6 +12,10 @@ class PrefsKeys {
   static const isFirstOpen = 'IS_FIRST_OPEN';
   static const familyCode = 'FAMILY_CODE';
   static const tags = 'TAGS';
+  static const isNotificationsEnabled = 'PUSH_ENABLED';
+  static const isNearlyEndEnabled = 'PUSH_NEARLY_ENABLED';
+  static const isDailyEnabled = 'PUSH_DAILY_ENABLED';
+  static const dailyTime = 'PUSH_DAILY_TIME';
 }
 
 class ColorTexts {
