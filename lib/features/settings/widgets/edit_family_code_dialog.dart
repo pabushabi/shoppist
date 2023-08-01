@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
-import 'package:shoppist/features/settings/blocs/family_code_cubit.dart';
+import 'package:shoppist/features/settings/blocs/family_code/family_code_cubit.dart';
 import 'package:shoppist/i18n/strings.g.dart';
 
 class EditFamilyCodeDialog extends StatelessWidget {

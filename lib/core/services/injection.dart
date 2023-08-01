@@ -8,7 +8,9 @@ import 'package:shoppist/features/home/repositories/shopping_list_repository.dar
 import 'package:shoppist/features/home/repositories/tags_repository.dart';
 import 'package:shoppist/features/l18n/blocs/l18n_cubit.dart';
 import 'package:shoppist/features/l18n/repositories/l18n_repository.dart';
-import 'package:shoppist/features/settings/blocs/family_code_cubit.dart';
+import 'package:shoppist/features/settings/blocs/family_code/family_code_cubit.dart';
+import 'package:shoppist/features/settings/blocs/notifications/notifications_cubit.dart';
+import 'package:shoppist/features/settings/repositories/notifications_repository.dart';
 
 /// Инстанс [GetIt]
 final GetIt getIt = GetIt.instance;
@@ -29,6 +31,13 @@ Future<void> init() async {
   );
   //===================FAMILY==========
   getIt.registerSingleton<FamilyCodeCubit>(FamilyCodeCubit());
+  //===================PUSH============
+  getIt.registerLazySingleton<NotificationSettingsRepository>(
+    () => NotificationSettingsRepositoryImpl(),
+  );
+  getIt.registerLazySingleton<NotificationsCubit>(
+    () => NotificationsCubit(getIt()),
+  );
   //===================TAGS============
   getIt.registerLazySingleton<TagsRepository>(() => TagsRepositoryImpl());
   getIt.registerLazySingleton<TagsCubit>(() => TagsCubit(getIt()));

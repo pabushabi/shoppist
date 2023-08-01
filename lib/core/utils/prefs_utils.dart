@@ -2,21 +2,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppist/core/constants/constants.dart';
 
 class PrefsUtils {
-  final SharedPreferences prefs;
+  final SharedPreferences _prefs;
 
-  const PrefsUtils(this.prefs);
+  const PrefsUtils(this._prefs);
 
   Future<void> saveLocale(String locale) async =>
-      await prefs.setString(PrefsKeys.appLocale, locale);
+      await _prefs.setString(PrefsKeys.appLocale, locale);
 
-  String? getLocale() => prefs.getString(PrefsKeys.appLocale);
+  String? getLocale() => _prefs.getString(PrefsKeys.appLocale);
 
   Future<void> setNotFirstOpen() async {
-    await prefs.setBool(PrefsKeys.isFirstOpen, false);
+    await _prefs.setBool(PrefsKeys.isFirstOpen, false);
   }
 
   bool isFirstOpen() {
-    final isFirstOpen = prefs.getBool(PrefsKeys.isFirstOpen);
+    final isFirstOpen = _prefs.getBool(PrefsKeys.isFirstOpen);
     if (isFirstOpen != null) {
       return isFirstOpen;
     }
@@ -24,19 +24,56 @@ class PrefsUtils {
   }
 
   Future<void> saveFamilyCode(String code) async =>
-      await prefs.setString(PrefsKeys.familyCode, code);
+      await _prefs.setString(PrefsKeys.familyCode, code);
 
   String getFamilyCode() {
-    final familyCode = prefs.getString(PrefsKeys.familyCode);
+    final familyCode = _prefs.getString(PrefsKeys.familyCode);
     if (familyCode != null) return familyCode;
     return '';
   }
 
   Future<void> saveTags(List<String> tags) async {
-    await prefs.setStringList(PrefsKeys.tags, tags);
+    await _prefs.setStringList(PrefsKeys.tags, tags);
   }
 
-  List<String>? getTags() => prefs.getStringList(PrefsKeys.tags);
+  List<String>? getTags() => _prefs.getStringList(PrefsKeys.tags);
 
-  void deleteTags() => prefs.remove(PrefsKeys.tags);
+  void deleteTags() => _prefs.remove(PrefsKeys.tags);
+
+  Future<void> setIsNotificationsEnabled(bool value) async =>
+      await _prefs.setBool(PrefsKeys.isNotificationsEnabled, value);
+
+  Future<void> setIsNearlyEndEnabled(bool value) async =>
+      await _prefs.setBool(PrefsKeys.isNearlyEndEnabled, value);
+
+  Future<void> setIsDailyEnabled(bool value) async =>
+      await _prefs.setBool(PrefsKeys.isDailyEnabled, value);
+
+  Future<void> setDailyTime(String value) async {
+    await _prefs.setString(PrefsKeys.dailyTime, value);
+  }
+
+  bool getIsNotificationsEnabled() {
+    final isEnabled =  _prefs.getBool(PrefsKeys.isNotificationsEnabled);
+    if (isEnabled != null) return isEnabled;
+    return false;
+  }
+
+  bool getIsNearlyEndEnabled()  {
+    final isEnabled = _prefs.getBool(PrefsKeys.isNearlyEndEnabled);
+    if (isEnabled != null) return isEnabled;
+    return false;
+  }
+
+  bool getIsDailyEnabled()  {
+    final isEnabled = _prefs.getBool(PrefsKeys.isDailyEnabled);
+    if (isEnabled != null) return isEnabled;
+    return false;
+  }
+
+  String getDailyTime()  {
+    final time = _prefs.getString(PrefsKeys.dailyTime);
+    if (time != null) return time;
+    return '';
+  }
 }

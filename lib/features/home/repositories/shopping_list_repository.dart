@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shoppist/core/services/injection.dart';
 import 'package:shoppist/features/home/models/shopping_item_model.dart';
-import 'package:shoppist/features/settings/blocs/family_code_cubit.dart';
+import 'package:shoppist/features/settings/blocs/family_code/family_code_cubit.dart';
 
 abstract class ShoppingListRepository {
   Future<List<ShoppingItemModel>> getShoppingList();
