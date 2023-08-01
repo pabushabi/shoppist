@@ -1,6 +1,6 @@
 import 'package:shoppist/core/services/injection.dart';
 import 'package:shoppist/core/utils/prefs_utils.dart';
-import 'package:shoppist/features/settings/blocs/models/notification_settings_model.dart';
+import 'package:shoppist/features/settings/models/notification_settings_model.dart';
 
 abstract class NotificationSettingsRepository {
   void saveNotificationSettings(

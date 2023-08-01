@@ -13,6 +13,9 @@ class NotificationSettingsModel extends Equatable {
     this.dailyTime,
   });
 
+  int? get getHour => int.tryParse(dailyTime!.split(':').first);
+  int? get getMinute => int.tryParse(dailyTime!.split(':').last);
+
   factory NotificationSettingsModel.initial() =>
       const NotificationSettingsModel(
         isNotificationsEnabled: false,

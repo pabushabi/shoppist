@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:shoppist/features/settings/blocs/models/notification_settings_model.dart';
-import 'package:shoppist/features/settings/blocs/repositories/notifications_repository.dart';
+import 'package:shoppist/features/settings/models/notification_settings_model.dart';
+import 'package:shoppist/features/settings/repositories/notifications_repository.dart';
 
 part 'notifications_state.dart';
 

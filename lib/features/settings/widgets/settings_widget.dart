@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shoppist/core/constants/constants.dart';
-import 'package:shoppist/core/services/notification_controller.dart';
 import 'package:shoppist/core/ui_kit/modal_bottom_sheets/bottom_sheet_layout.dart';
 import 'package:shoppist/features/l18n/blocs/l18n_cubit.dart';
 import 'package:shoppist/features/settings/blocs/family_code/family_code_cubit.dart';
@@ -247,29 +246,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           },
         ),
         const SizedBox(height: 10),
-        Row(
-          children: [
-            TextButton(
-              onPressed: () {
-                NotificationController.createNewNotification(
-                  title: 'send push',
-                  body: 'body',
-                );
-              },
-              child: const Text('send push'),
-            ),
-            TextButton(
-              onPressed: () {
-                NotificationController.scheduleNewNotification(
-                  title: 'scheduled',
-                  body: 'body',
-                  // schedule: No
-                );
-              },
-              child: const Text('schedule push'),
-            ),
-          ],
-        ),
         // Row(
         //   children: [
         //     Text(

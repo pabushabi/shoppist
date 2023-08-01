@@ -2,26 +2,38 @@ import 'dart:developer';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:shoppist/core/services/notifications_listener.dart';
 
 class NotificationController {
   static ReceivedAction? initialAction;
-  static const String _channel = 'alerts';
 
   static Future<void> init() async {
     await AwesomeNotifications().initialize(
       'resource://mipmap/ic_notification',
       [
         NotificationChannel(
-          channelKey: _channel,
+          channelKey: 'alerts',
           channelName: 'Alerts',
-          channelDescription: 'Pushs about products what about to run out',
+          channelDescription: 'Alerts about products what about to run out',
           playSound: true,
           onlyAlertOnce: true,
           groupAlertBehavior: GroupAlertBehavior.Children,
           importance: NotificationImportance.Max,
           defaultPrivacy: NotificationPrivacy.Private,
           defaultColor: Colors.orange,
-          ledColor: Colors.orange,
+          channelShowBadge: true,
+        ),
+        NotificationChannel(
+          channelKey: 'reports',
+          channelName: 'Reports',
+          channelDescription: 'Daily reports',
+          playSound: true,
+          onlyAlertOnce: true,
+          groupAlertBehavior: GroupAlertBehavior.Children,
+          importance: NotificationImportance.Max,
+          defaultPrivacy: NotificationPrivacy.Private,
+          defaultColor: Colors.orange,
+          channelShowBadge: true,
         ),
       ],
       debug: true,
@@ -29,7 +41,8 @@ class NotificationController {
 
     // initialAction = await AwesomeNotifications()
     //     .getInitialNotificationAction(removeFromActionEvents: false);
-    startListeningNotificationEvents();
+    // startListeningNotificationEvents();
+    notificationListener();
   }
 
   static Future<void> startListeningNotificationEvents() async {
@@ -38,17 +51,10 @@ class NotificationController {
     });
   }
 
-  @pragma('vm:entry-point')
-  static Future<void> onActionReceivedMethod(
-    ReceivedAction action,
-  ) async {
-    log('Message sent via notification input: "${action.buttonKeyInput}"');
-  }
-
   static Future<void> createNewNotification({
     required String title,
     required String body,
-    String? channelKey,
+    required String channelKey,
   }) async {
     bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
     if (!isAllowed) return;
@@ -56,22 +62,18 @@ class NotificationController {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: -1,
-        channelKey: channelKey ?? _channel,
+        channelKey: channelKey,
         title: title,
         body: body,
-        notificationLayout: NotificationLayout.Default,
-        payload: {'notificationId': '1234567890'},
+        notificationLayout: NotificationLayout.BigText,
       ),
-      // actionButtons: [
-      //   NotificationActionButton(key: 'REDIRECT', label: 'Redirect'),
-      // ],
     );
   }
 
   static Future<void> scheduleNewNotification({
+    required String channelKey,
     required String title,
     required String body,
-    String? channelKey,
     NotificationSchedule? schedule,
   }) async {
     bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
@@ -80,19 +82,25 @@ class NotificationController {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: -1,
-        channelKey: channelKey ?? _channel,
+        channelKey: channelKey,
         title: title,
         body: body,
-        notificationLayout: NotificationLayout.Default,
-        payload: {'notificationId': '1234567890'},
+        notificationLayout: NotificationLayout.BigText,
       ),
-      // actionButtons: [
-      //   NotificationActionButton(key: 'REDIRECT', label: 'Redirect'),
-      // ],
-      schedule: schedule ?? NotificationCalendar.fromDate(
-        date: DateTime.now().add(const Duration(hours: 2)),
-      ),
+      schedule: schedule ??
+          NotificationCalendar.fromDate(
+            date: DateTime.now().add(const Duration(hours: 2)),
+          ),
     );
+  }
+
+  static Future<void> removeOldScheduled(String channel) async {
+    final scheduled = await AwesomeNotifications().listScheduledNotifications();
+    final withChannel =
+        scheduled.where((e) => e.content?.channelKey == channel);
+    if (withChannel.isNotEmpty) {
+      AwesomeNotifications().cancelSchedulesByChannelKey(channel);
+    }
   }
 
   static Future<void> resetBadgeCounter() async {
