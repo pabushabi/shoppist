@@ -48,5 +48,10 @@
     "deepOrange": "Deep orange",
     "brown": "Brown",
     "blueGrey": "Blue grey"
+  },
+  "sort": {
+    "alphabet": "Alphabet",
+    "type": "Type",
+    "none": "None"
   }
 }

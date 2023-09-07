@@ -12,6 +12,7 @@ class PrefsKeys {
   static const isFirstOpen = 'IS_FIRST_OPEN';
   static const familyCode = 'FAMILY_CODE';
   static const tags = 'TAGS';
+  static const sort = 'SORT';
 }
 
 class ColorTexts {
@@ -35,4 +36,10 @@ class ColorTexts {
     t.colors.brown,
     t.colors.blueGrey,
   ];
+}
+
+enum SortModel  {
+  alphabetic,
+  type,
+  none
 }
