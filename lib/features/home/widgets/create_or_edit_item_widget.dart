@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shoppist/core/ui_kit/modal_bottom_sheets/bottom_sheet_layout.dart';

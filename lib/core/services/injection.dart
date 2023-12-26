@@ -5,6 +5,7 @@ import 'package:shoppist/core/utils/prefs_utils.dart';
 import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
 import 'package:shoppist/features/home/blocs/tags_cubit/tags_cubit.dart';
 import 'package:shoppist/features/home/repositories/shopping_list_repository.dart';
+import 'package:shoppist/features/home/repositories/sort_repository.dart';
 import 'package:shoppist/features/home/repositories/tags_repository.dart';
 import 'package:shoppist/features/l18n/blocs/l18n_cubit.dart';
 import 'package:shoppist/features/l18n/repositories/l18n_repository.dart';
@@ -23,10 +24,11 @@ Future<void> init() async {
   getIt.registerLazySingleton(() => firestore);
 
   //====================HOME===========
-  getIt.registerLazySingleton(() => ShoppingListCubit(getIt()));
+  getIt.registerLazySingleton(() => ShoppingListCubit(getIt(), getIt()));
   getIt.registerLazySingleton<ShoppingListRepository>(
     () => ShoppingListRepositoryImpl(getIt()),
   );
+  getIt.registerLazySingleton<SortRepository>(() => SortRepositoryImpl());
   //===================FAMILY==========
   getIt.registerSingleton<FamilyCodeCubit>(FamilyCodeCubit());
   //===================TAGS============

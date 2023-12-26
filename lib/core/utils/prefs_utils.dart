@@ -39,4 +39,13 @@ class PrefsUtils {
   List<String>? getTags() => prefs.getStringList(PrefsKeys.tags);
 
   void deleteTags() => prefs.remove(PrefsKeys.tags);
+
+  String getSort() {
+    final sort = prefs.getString(PrefsKeys.sort);
+    if (sort != null) return sort;
+    return 'SortModel.none';
+  }
+
+  Future<void> saveSort(String sort) async =>
+      await prefs.setString(PrefsKeys.sort, sort);
 }

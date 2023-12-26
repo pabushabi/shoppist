@@ -2,19 +2,23 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shoppist/core/constants/constants.dart';
 import 'package:shoppist/core/services/injection.dart';
 import 'package:shoppist/core/utils/prefs_utils.dart';
 import 'package:shoppist/features/home/models/shopping_item_model.dart';
 import 'package:shoppist/features/home/models/tag_model.dart';
 import 'package:shoppist/features/home/repositories/shopping_list_repository.dart';
+import 'package:shoppist/features/home/repositories/sort_repository.dart';
 import 'package:uuid/uuid.dart';
 
 part 'shopping_list_state.dart';
 
 class ShoppingListCubit extends Cubit<ShoppingListState> {
   final ShoppingListRepository _repository;
+  final SortRepository _sortRepository;
 
-  ShoppingListCubit(this._repository) : super(ShoppingListState.initial());
+  ShoppingListCubit(this._repository, this._sortRepository)
+      : super(ShoppingListState.initial());
 
   final _uuid = const Uuid();
 
@@ -22,12 +26,40 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
     if (getIt<PrefsUtils>().isFirstOpen()) {
       getIt<PrefsUtils>().setNotFirstOpen();
     }
+    final savedSort = _sortRepository.getCurrentSort();
+    emit(state.copyWith(sortModel: savedSort));
+    var items = await _repository.getShoppingList();
+    if (state.sortModel == SortModel.alphabetic) {
+      items
+          .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    }
+    if (state.sortModel == SortModel.type) {
+      items.sort(
+        (a, b) {
+          int type = a.tag?.name
+                  .toLowerCase()
+                  .compareTo(b.tag?.name.toLowerCase() ?? 'я') ??
+              1;
+          if (type != 0) {
+            return type;
+          } else {
+            return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+          }
+        },
+      );
+    }
     emit(
       state.copyWith(
-        items: await _repository.getShoppingList(),
+        items: items,
         lastDeleted: state.lastDeleted,
       ),
     );
+  }
+
+  void setSort(SortModel sort) {
+    emit(state.copyWith(sortModel: sort));
+    _sortRepository.setCurrentSort(sort);
+    getItems();
   }
 
   void addItem({

@@ -25,7 +25,6 @@ class ItemListWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(25),
             color:
                 item.tag?.color.withOpacity(.5) ?? Colors.primaries[5].shade100,
-            // color: Colors.primaries[index < 17 ? index : 17].shade100,
           ),
           width: MediaQuery.of(context).size.width,
           height: 80,
@@ -36,22 +35,22 @@ class ItemListWidget extends StatelessWidget {
               Expanded(
                 child: Text(
                   item.name,
-                  maxLines: 1,
-                  softWrap: false,
+                  maxLines: 2,
+                  softWrap: true,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontSize: 20),
                 ),
               ),
-              const SizedBox(width: 20),
-              Expanded(
+              SizedBox(
+                width: 90,
                 child: RichText(
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.end,
                   text: TextSpan(
                     style: const TextStyle(
                       color: Colors.black87,
-                      fontSize: 18,
+                      fontSize: 20,
                     ),
                     children: [
                       TextSpan(
@@ -61,7 +60,6 @@ class ItemListWidget extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      // const TextSpan(text: '/'),
                       TextSpan(
                         text: '/${item.maxAmountFormatted}',
                         style: const TextStyle(fontWeight: FontWeight.w600),
