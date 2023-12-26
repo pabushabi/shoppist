@@ -29,7 +29,7 @@ dependencies:
   cloud_firestore: ^4.8.4
   swipe_refresh: ^1.0.2
   uuid: ^3.0.7
-  share_plus: ^7.1.0
+  share_plus: ^7.2.1
   dropdown_button2: ^2.3.8
 
 dev_dependencies:
