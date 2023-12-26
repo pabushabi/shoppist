@@ -49,6 +49,11 @@
     "brown": "Brown",
     "blueGrey": "Blue grey"
   },
+  "sort": {
+    "alphabet": "Alphabet",
+    "type": "Type",
+    "none": "None"
+  },
   "push": {
     "turn_on": "Turn on notifications",
     "is_empty": "Notify me when stocks are almost out",

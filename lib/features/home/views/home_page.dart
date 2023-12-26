@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoppist/core/constants/constants.dart';
 import 'package:shoppist/core/ui_kit/modal_bottom_sheets/custom_bottom_sheets.dart';
 import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
 import 'package:shoppist/features/home/widgets/home_empty_list_widget.dart';
@@ -16,6 +17,30 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
         title: const Text('shoppist'),
         actions: [
+          BlocBuilder<ShoppingListCubit, ShoppingListState>(
+            buildWhen: (previous, current) => previous.sortModel != current.sortModel,
+            builder: (context, state) => PopupMenuButton(
+              icon: const Icon(Icons.sort),
+              initialValue: state.sortModel,
+              onSelected: (item) {
+                context.read<ShoppingListCubit>().setSort(item);
+              },
+              itemBuilder: (context) => [
+                PopupMenuItem<SortModel>(
+                  value: SortModel.alphabetic,
+                  child: Text(t.sort.alphabet),
+                ),
+                PopupMenuItem<SortModel>(
+                  value: SortModel.type,
+                  child: Text(t.sort.type),
+                ),
+                PopupMenuItem<SortModel>(
+                  value: SortModel.none,
+                  child: Text(t.sort.none),
+                ),
+              ],
+            ),
+          ),
           IconButton(
             onPressed: () => showSettingsBottomSheet(context),
             icon: const Icon(Icons.settings),
