@@ -46,16 +46,14 @@ class PrefsUtils {
   Future<void> setIsNearlyEndEnabled(bool value) async =>
       await _prefs.setBool(PrefsKeys.isNearlyEndEnabled, value);
 
-  void deleteTags() => prefs.remove(PrefsKeys.tags);
-
   String getSort() {
-    final sort = prefs.getString(PrefsKeys.sort);
+    final sort = _prefs.getString(PrefsKeys.sort);
     if (sort != null) return sort;
     return 'SortModel.none';
   }
 
   Future<void> saveSort(String sort) async =>
-      await prefs.setString(PrefsKeys.sort, sort);
+      await _prefs.setString(PrefsKeys.sort, sort);
   Future<void> setIsDailyEnabled(bool value) async =>
       await _prefs.setBool(PrefsKeys.isDailyEnabled, value);
 

@@ -8,7 +8,7 @@ import 'package:shoppist/features/home/widgets/home_items_list_widget.dart';
 import 'package:shoppist/i18n/strings.g.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             onPressed: () => showSettingsBottomSheet(context),
             icon: const Icon(Icons.settings),
-          )
+          ),
         ],
       ),
       body: Padding(

@@ -13,9 +13,9 @@ class CreateOrEditItemWidget extends StatefulWidget {
   final ShoppingItemModel? editingItem;
 
   const CreateOrEditItemWidget({
-    Key? key,
+    super.key,
     this.editingItem,
-  }) : super(key: key);
+  });
 
   @override
   State<CreateOrEditItemWidget> createState() => CreateOrEditItemWidgetState();

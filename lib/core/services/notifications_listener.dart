@@ -20,6 +20,7 @@ void notificationListener() {
           ..sort((a, b) => a.amount.compareTo(b.amount));
         if (shouldNotifyItems.isNotEmpty) {
           String body = t.push.attention;
+
           for (var item in shouldNotifyItems) {
             body +=
                 '${item.name} ${item.amount == 0 ? '(${t.push.ran_out})' : '(${item.amount} ${t.push.left})'}, ';

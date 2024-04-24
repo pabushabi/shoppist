@@ -11,7 +11,7 @@ import 'package:shoppist/features/settings/blocs/notifications/notifications_cub
 import 'package:shoppist/i18n/strings.g.dart';
 
 class Application extends StatelessWidget {
-  const Application({Key? key}) : super(key: key);
+  const Application({super.key});
 
   @override
   Widget build(BuildContext context) {

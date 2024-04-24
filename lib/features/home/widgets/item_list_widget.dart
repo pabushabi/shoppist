@@ -11,8 +11,8 @@ class ItemListWidget extends StatelessWidget {
   const ItemListWidget({
     required this.item,
     required this.index,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

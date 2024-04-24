@@ -10,8 +10,8 @@ class EditFamilyCodeDialog extends StatelessWidget {
 
   const EditFamilyCodeDialog({
     required this.newCodeController,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class EditFamilyCodeDialog extends StatelessWidget {
                   child: Text(t.save),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

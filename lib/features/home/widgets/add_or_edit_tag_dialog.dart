@@ -9,7 +9,7 @@ import 'package:shoppist/i18n/strings.g.dart';
 class AddOrEditTagDialog extends StatefulWidget {
   final TagModel? tagToEdit;
 
-  const AddOrEditTagDialog({this.tagToEdit, Key? key}) : super(key: key);
+  const AddOrEditTagDialog({this.tagToEdit, super.key});
 
   @override
   State<AddOrEditTagDialog> createState() => _AddOrEditTagDialogState();
@@ -123,7 +123,7 @@ class _AddOrEditTagDialogState extends State<AddOrEditTagDialog> {
                   child: Text(t.save),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

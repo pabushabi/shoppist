@@ -7,7 +7,7 @@ import 'package:shoppist/features/home/blocs/tags_cubit/tags_cubit.dart';
 import 'package:shoppist/i18n/strings.g.dart';
 
 class EditTagsWidget extends StatefulWidget {
-  const EditTagsWidget({Key? key}) : super(key: key);
+  const EditTagsWidget({super.key});
 
   @override
   State<EditTagsWidget> createState() => _EditTagsWidgetState();
@@ -38,7 +38,7 @@ class _EditTagsWidgetState extends State<EditTagsWidget> {
                           // style: (), TODO
                           onPressed: () {},
                           child: Text('${state.tags[index].color}'),
-                        )
+                        ),
                         // DropdownButton2(
                         //   value: tagColors[index],
                         //   onChanged: (val) =>

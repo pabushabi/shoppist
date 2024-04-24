@@ -10,8 +10,8 @@ class ViewItemWidget extends StatelessWidget {
 
   const ViewItemWidget({
     required this.index,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

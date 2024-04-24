@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:flutter/material.dart';
 import 'package:shoppist/core/services/notifications_listener.dart';
 
 class NotificationController {
@@ -20,7 +17,7 @@ class NotificationController {
           groupAlertBehavior: GroupAlertBehavior.Children,
           importance: NotificationImportance.Max,
           defaultPrivacy: NotificationPrivacy.Private,
-          defaultColor: Colors.orange,
+          // defaultColor: Colors.orange,
           channelShowBadge: true,
         ),
         NotificationChannel(
@@ -32,7 +29,7 @@ class NotificationController {
           groupAlertBehavior: GroupAlertBehavior.Children,
           importance: NotificationImportance.Max,
           defaultPrivacy: NotificationPrivacy.Private,
-          defaultColor: Colors.orange,
+          // defaultColor: Colors.orange,
           channelShowBadge: true,
         ),
       ],
@@ -46,9 +43,9 @@ class NotificationController {
   }
 
   static Future<void> startListeningNotificationEvents() async {
-    AwesomeNotifications().actionStream.listen((event) {
-      log('action listener $event');
-    });
+    // AwesomeNotifications().actionStream.listen((event) {
+    //   log('action listener $event');
+    // });
   }
 
   static Future<void> createNewNotification({

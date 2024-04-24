@@ -9,12 +9,12 @@ class BottomSheetLayout extends StatelessWidget {
 
   const BottomSheetLayout({
     required this.body,
-    Key? key,
+    super.key,
     this.title,
     this.padding,
     this.needKeyboardPadding = true,
     this.crossAxisAlignment = CrossAxisAlignment.center,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

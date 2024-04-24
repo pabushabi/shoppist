@@ -10,7 +10,7 @@ import 'package:swipe_refresh/swipe_refresh.dart';
 class HomeItemsListWidget extends StatefulWidget {
   final List<ShoppingItemModel> items;
 
-  const HomeItemsListWidget({required this.items, Key? key}) : super(key: key);
+  const HomeItemsListWidget({required this.items, super.key});
 
   @override
   State<StatefulWidget> createState() => _HomeItemsListWidgetState();

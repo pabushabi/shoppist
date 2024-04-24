@@ -8,7 +8,7 @@ import 'package:shoppist/i18n/strings.g.dart';
 import 'package:swipe_refresh/swipe_refresh.dart';
 
 class HomeEmptyListWidget extends StatefulWidget {
-  const HomeEmptyListWidget({Key? key}) : super(key: key);
+  const HomeEmptyListWidget({super.key});
 
   @override
   State<HomeEmptyListWidget> createState() => _HomeEmptyListWidgetState();

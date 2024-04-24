@@ -12,7 +12,7 @@ import 'package:shoppist/features/settings/widgets/edit_family_code_dialog.dart'
 import 'package:shoppist/i18n/strings.g.dart';
 
 class SettingsWidget extends StatefulWidget {
-  const SettingsWidget({Key? key}) : super(key: key);
+  const SettingsWidget({super.key});
 
   @override
   State<SettingsWidget> createState() => _SettingsWidgetState();
