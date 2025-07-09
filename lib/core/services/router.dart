@@ -11,4 +11,11 @@ final GoRouter router = GoRouter(
       },
     ),
   ],
+  redirect: (BuildContext context, GoRouterState state) async {
+    if (state.uri.scheme == 'glance-action' && state.uri.path == '/CALLBACK') {
+      return '/';
+    }
+
+    return null;
+  }
 );

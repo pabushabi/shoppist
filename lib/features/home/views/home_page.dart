@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppist/core/constants/constants.dart';
@@ -83,4 +86,9 @@ class HomePage extends StatelessWidget {
       resizeToAvoidBottomInset: true,
     );
   }
+}
+
+@pragma("vm:entry-point")
+FutureOr<void> backgroundCallback(Uri? uri) async {
+  log('launched ${uri?.path}');
 }

@@ -64,5 +64,9 @@
     "left": "left",
     "productsRanOut": "Products are running out",
     "daily_report": "Daily report"
+  },
+  "widget": {
+    "wowEmpty": "Wow, it`s empty...",
+    "goodWork": "Good work!"
   }
 }
