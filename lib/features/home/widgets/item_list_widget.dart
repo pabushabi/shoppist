@@ -3,82 +3,69 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppist/core/ui_kit/modal_bottom_sheets/custom_bottom_sheets.dart';
 import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
 import 'package:shoppist/features/home/models/shopping_item_model.dart';
+import 'package:shoppist/features/home/widgets/count_widget.dart';
 
 class ItemListWidget extends StatelessWidget {
   final ShoppingItemModel item;
-  final int index;
 
   const ItemListWidget({
     required this.item,
-    required this.index,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.symmetric(vertical: 6),
       child: GestureDetector(
-        onTap: () => showViewItemBottomSheet(context, index: index),
+        onTap: () => showViewItemBottomSheet(context, item: item),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            color:
-                item.tag?.color.withOpacity(.5) ?? Colors.primaries[5].shade100,
+            color: Theme.of(context).colorScheme.surfaceContainerLowest,
           ),
           width: MediaQuery.of(context).size.width,
-          height: 80,
+          height: 68,
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(width: 30),
+              const SizedBox(width: 10),
               Expanded(
-                child: Text(
-                  item.name,
-                  maxLines: 2,
-                  softWrap: true,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ),
-              SizedBox(
-                width: 90,
-                child: RichText(
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.end,
-                  text: TextSpan(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: item.tag?.color.withAlpha(100) ??
+                        Colors.white.withAlpha(100),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 6, horizontal: 14),
+                  child: Text(
+                    item.name,
+                    maxLines: 1,
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      color: Colors.black87,
                       fontSize: 20,
+                      fontWeight: FontWeight.w500,
                     ),
-                    children: [
-                      TextSpan(
-                        text: item.amountFormatted,
-                        style: TextStyle(
-                          color: item.amount <= 0 ? Colors.red : Colors.green,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      TextSpan(
-                        text: '/${item.maxAmountFormatted}',
-                        style: const TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                    ],
                   ),
                 ),
               ),
-              const SizedBox(width: 20),
+              const SizedBox(width: 10),
+              CountWidget(
+                item: item,
+                needColor: true,
+              ),
+              const SizedBox(width: 6),
               IconButton(
                 onPressed: () =>
-                    context.read<ShoppingListCubit>().minusOne(index: index),
+                    context.read<ShoppingListCubit>().minusOne(item),
                 icon: const Icon(Icons.exposure_minus_1_rounded),
-                style: const ButtonStyle(
+                style: ButtonStyle(
                   backgroundColor:
-                      MaterialStatePropertyAll<Color>(Colors.white),
+                      WidgetStateProperty.all(Colors.red.withAlpha(150)),
                 ),
               ),
-              const SizedBox(width: 30),
+              const SizedBox(width: 7),
             ],
           ),
         ),

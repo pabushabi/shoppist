@@ -1,5 +1,7 @@
 {
   "name": "Name",
+  "desc": "Description",
+  "couldBeDesc": "There is could be description",
   "current_count": "Current count",
   "max_count": "Max count",
   "tag": {

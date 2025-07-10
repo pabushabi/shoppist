@@ -37,6 +37,8 @@ class TranslationsRu implements Translations {
 
 	// Translations
 	@override String get name => 'Имя';
+	@override String get desc => 'Описание';
+	@override String get couldBeDesc => 'Здесь могло бы быть описание';
 	@override String get current_count => 'Текущее кол-во:';
 	@override String get max_count => 'Необходимо:';
 	@override late final _TranslationsTagRu tag = _TranslationsTagRu._(_root);
@@ -162,6 +164,8 @@ extension on TranslationsRu {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
 			case 'name': return 'Имя';
+			case 'desc': return 'Описание';
+			case 'couldBeDesc': return 'Здесь могло бы быть описание';
 			case 'current_count': return 'Текущее кол-во:';
 			case 'max_count': return 'Необходимо:';
 			case 'tag.tag': return 'Тэг';

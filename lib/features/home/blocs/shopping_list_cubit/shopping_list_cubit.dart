@@ -66,6 +66,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
   void addItem({
     required String name,
     required double count,
+    String? description,
     double? maxCount,
     TagModel? tag,
     String? id,
@@ -73,6 +74,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
     final ShoppingItemModel item = ShoppingItemModel(
       id: id ?? _uuid.v4().split('-').last,
       name: name,
+      description: description,
       amount: count,
       maxAmount: maxCount ?? count,
       tag: tag,
@@ -98,6 +100,7 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
       addItem(
         id: state.lastDeleted!.id,
         name: state.lastDeleted!.name,
+        description: state.lastDeleted!.description,
         count: state.lastDeleted!.amount,
         maxCount: state.lastDeleted!.maxAmount,
         tag: state.lastDeleted!.tag,
@@ -110,17 +113,23 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
     getItems();
   }
 
-  void minusOne({required int index}) {
-    final item = state.items[index];
-    editItem(newItem: item.copyWith(amount: max(item.amount - 1, 0)));
+  void minusOne(ShoppingItemModel item) {
+    final chosenItem = state.items.firstWhere((el) => el.id == item.id);
+    editItem(newItem: chosenItem.copyWith(amount: max(chosenItem.amount - 1, 0)));
   }
 
-  void plusOne({required int index}) {
-    final item = state.items[index];
-    editItem(newItem: item.copyWith(amount: item.amount + 1));
+  void plusOne(ShoppingItemModel item) {
+    final chosenItem = state.items.firstWhere((el) => el.id == item.id);
+    editItem(newItem: chosenItem.copyWith(amount: chosenItem.amount + 1));
   }
 
-  void resetCount({required int index}) {
-    editItem(newItem: state.items[index].copyWith(amount: 0));
+  void plusTen(ShoppingItemModel item) {
+    final chosenItem = state.items.firstWhere((el) => el.id == item.id);
+    editItem(newItem: chosenItem.copyWith(amount: chosenItem.amount + 10));
+  }
+
+  void resetCount(ShoppingItemModel item) {
+    final chosenItem = state.items.firstWhere((el) => el.id == item.id);
+    editItem(newItem: chosenItem.copyWith(amount: 0));
   }
 }

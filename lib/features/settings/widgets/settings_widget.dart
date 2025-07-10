@@ -58,7 +58,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                   value: state.languageCode,
                   style: const TextStyle(
                     fontSize: 16,
-                    color: Colors.black87,
                   ),
                   items: [
                     // DropdownMenuItem(
@@ -105,7 +104,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                   decoration: InputDecoration(
                     suffixIcon: const Icon(
                       Icons.edit,
-                      color: Colors.black87,
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 20,
@@ -120,7 +118,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               ),
             ),
             IconButton(
-              onPressed: () => Share.share(_familyCodeController.text),
+              onPressed: () => Share.share(_familyCodeController.text), // TODO(Shalimov): refactor
               icon: const Icon(Icons.share),
             ),
           ],
@@ -225,7 +223,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                           decoration: InputDecoration(
                             suffixIcon: const Icon(
                               Icons.edit,
-                              color: Colors.black87,
                             ),
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 20,

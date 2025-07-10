@@ -40,6 +40,8 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	String get name => 'Name';
+	String get desc => 'Description';
+	String get couldBeDesc => 'There is could be description';
 	String get current_count => 'Current count';
 	String get max_count => 'Max count';
 	late final TranslationsTagEn tag = TranslationsTagEn._(_root);
@@ -165,6 +167,8 @@ extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
 			case 'name': return 'Name';
+			case 'desc': return 'Description';
+			case 'couldBeDesc': return 'There is could be description';
 			case 'current_count': return 'Current count';
 			case 'max_count': return 'Max count';
 			case 'tag.tag': return 'Tag';

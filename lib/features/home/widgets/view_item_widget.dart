@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:shoppist/core/ui_kit/modal_bottom_sheets/bottom_sheet_layout.dart';
-import 'package:shoppist/core/ui_kit/modal_bottom_sheets/custom_bottom_sheets.dart';
+import 'package:shoppist/core/ui_kit/substrate_widget.dart';
 import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoppist/features/home/widgets/add_tag_dialog.dart';
-import 'package:shoppist/i18n/strings.g.dart';
+import 'package:shoppist/features/home/models/shopping_item_model.dart';
+import 'package:shoppist/features/home/widgets/description_widget.dart';
+import 'package:shoppist/features/home/widgets/item_title_widget.dart';
+import 'package:shoppist/features/home/widgets/plus_minus_widget.dart';
+import 'package:shoppist/features/home/widgets/tags_widget.dart';
 
 class ViewItemWidget extends StatelessWidget {
-  final int index;
+  final ShoppingItemModel item;
 
-  const ViewItemWidget({
-    required this.index,
+  const ViewItemWidget(
+    this.item, {
     super.key,
   });
 
@@ -18,107 +21,26 @@ class ViewItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ShoppingListCubit, ShoppingListState>(
       builder: (context, state) {
+        final currentItem = state.items.firstWhere((el) => el.id == item.id);
+
         return BottomSheetLayout(
           crossAxisAlignment: CrossAxisAlignment.start,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           body: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  onPressed: () => context
-                      .read<ShoppingListCubit>()
-                      .resetCount(index: index),
-                  icon: const Icon(Icons.exposure_zero),
-                ),
-                IconButton(
-                  onPressed: () =>
-                      context.read<ShoppingListCubit>().minusOne(index: index),
-                  icon: const Icon(Icons.exposure_minus_1),
-                ),
-                IconButton(
-                  onPressed: () =>
-                      context.read<ShoppingListCubit>().plusOne(index: index),
-                  icon: const Icon(Icons.exposure_plus_1),
-                ),
-                IconButton(
-                  onPressed: () => showEditItemBottomSheet(
-                    context,
-                    state.items[index],
-                  ),
-                  icon: const Icon(Icons.edit),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    context
-                        .read<ShoppingListCubit>()
-                        .removeItem(state.items[index]);
-                  },
-                  icon: const Icon(Icons.delete),
-                ),
-              ],
-            ),
-            Text(
-              '${t.name}: ${(index < state.items.length) ? state.items[index].name : t.deleted}',
-              style: const TextStyle(fontSize: 16),
-              softWrap: true,
-              overflow: TextOverflow.clip,
-            ),
+            ItemTitleWidget(currentItem),
             const SizedBox(height: 10),
-            RichText(
-              text: TextSpan(
-                style: const TextStyle(fontSize: 16, color: Colors.black87),
+            SubstrateWidget(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextSpan(text: '${t.current_count} '),
-                  TextSpan(
-                    text: state.items[index].amountFormatted,
-                    style: TextStyle(
-                      color: state.items[index].amount <= 0
-                          ? Colors.red
-                          : Colors.green,
-                    ),
-                  ),
-                  TextSpan(
-                    text: '/${state.items[index].maxAmountFormatted}',
-                  ),
+                  DescriptionWidget(currentItem),
+                  // const SizedBox(height: 10),
+                  TagsWidget(currentItem),
+                  const SizedBox(height: 20),
+                  PlusMinusWidget(currentItem, index: 0),
                 ],
               ),
-              textAlign: TextAlign.start,
             ),
-            const SizedBox(height: 10),
-            if (state.items[index].tag != null)
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: ChoiceChip(
-                  shape: const StadiumBorder(),
-                  selected: true,
-                  onSelected: (bool selected) {},
-                  selectedColor: state.items[index].tag?.color.withOpacity(.7),
-                  label: Text(
-                    state.items.isNotEmpty
-                        ? state.items[index].tag?.name ?? ''
-                        : 'no type',
-                  ),
-                ),
-              )
-            else
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: ActionChip(
-                  backgroundColor: Colors.accents[14],
-                  label: Text('+ ${t.add}'),
-                  shape: const StadiumBorder(),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AddTagDialog(
-                        item: state.items[index],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            const SizedBox(height: 40),
           ],
         );
       },

@@ -1,31 +1,36 @@
+import 'package:equatable/equatable.dart';
 import 'package:shoppist/features/home/models/tag_model.dart';
 
-class ShoppingItemModel {
-  String id;
-  String name;
-  double amount;
-  double maxAmount;
-  TagModel? tag;
+class ShoppingItemModel extends Equatable {
+  final String id;
+  final String name;
+  final String? description;
+  final double amount;
+  final double maxAmount;
+  final TagModel? tag;
 
-  ShoppingItemModel({
+  const ShoppingItemModel({
     required this.id,
     required this.name,
     required this.amount,
     required this.maxAmount,
+    this.description,
     this.tag,
   });
 
-  factory ShoppingItemModel.empty() => ShoppingItemModel(
+  factory ShoppingItemModel.empty() => const ShoppingItemModel(
         id: '',
         name: '',
         amount: 0,
         maxAmount: 0,
+        description: null,
         tag: null,
       );
 
   ShoppingItemModel copyWith({
     String? id,
     String? name,
+    String? description,
     double? amount,
     double? maxAmount,
     TagModel? tag,
@@ -33,6 +38,7 @@ class ShoppingItemModel {
       ShoppingItemModel(
         id: id ?? this.id,
         name: name ?? this.name,
+        description: description ?? this.description,
         amount: amount ?? this.amount,
         maxAmount: maxAmount ?? this.maxAmount,
         tag: tag ?? this.tag,
@@ -41,6 +47,7 @@ class ShoppingItemModel {
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
+        'description': description,
         'amount': amount,
         'maxAmount': maxAmount,
         'tag': tag?.toJson(),
@@ -50,6 +57,7 @@ class ShoppingItemModel {
       ShoppingItemModel(
         id: json['id'],
         name: json['name'],
+        description: json['description'],
         amount: double.parse('${json['amount']}'),
         maxAmount: double.parse('${json['maxAmount']}'),
         tag: json['tag'] != null ? TagModel.fromJson(json['tag']) : null,
@@ -57,7 +65,7 @@ class ShoppingItemModel {
 
   @override
   String toString() {
-    return '{id: $id: name: $name, amount: $amount/$maxAmount, type: $tag}';
+    return '{id: $id: name: $name, desc: $description, amount: $amount/$maxAmount, type: $tag}';
   }
 
   String get amountFormatted =>
@@ -66,4 +74,14 @@ class ShoppingItemModel {
   String get maxAmountFormatted => (maxAmount - maxAmount.floor() > 0)
       ? '$maxAmount'
       : '${maxAmount.floor()}';
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        amount,
+        maxAmount,
+        tag,
+      ];
 }

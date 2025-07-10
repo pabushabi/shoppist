@@ -28,9 +28,9 @@ Future basicBottomSheet(
           ? Padding(
               padding: const EdgeInsets.all(8),
               child: DecoratedBox(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: const BorderRadius.all(Radius.circular(25)),
                 ),
                 child: child,
               ),
@@ -54,9 +54,9 @@ Future<void> showEditItemBottomSheet(
 
 Future<void> showViewItemBottomSheet(
   BuildContext context, {
-  required int index,
+  required ShoppingItemModel item,
 }) =>
-    basicBottomSheet(context, child: ViewItemWidget(index: index));
+    basicBottomSheet(context, child: ViewItemWidget(item));
 
 Future<void> showSettingsBottomSheet(BuildContext context) =>
     basicBottomSheet(context, child: const SettingsWidget());

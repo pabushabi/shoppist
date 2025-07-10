@@ -1,3 +1,4 @@
+import 'package:dynamic_system_colors/dynamic_system_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shoppist/core/services/router.dart';
@@ -33,16 +34,26 @@ class Application extends StatelessWidget {
         listenWhen: (prev, next) => prev.languageCode != next.languageCode,
         listener: (context, state) =>
             LocaleSettings.setLocaleRaw(state.languageCode),
-        child: MaterialApp.router(
-          routerConfig: router,
-          title: 'shoppist',
-          locale: TranslationProvider.of(context).flutterLocale,
-          supportedLocales: AppLocaleUtils.supportedLocales,
-          localizationsDelegates: GlobalMaterialLocalizations.delegates,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-            useMaterial3: true,
-          ),
+        child: DynamicColorBuilder(
+          builder: (lightDynamic, darkDynamic) {
+            return MaterialApp.router(
+              routerConfig: router,
+              title: 'shoppist',
+              debugShowCheckedModeBanner: false,
+              locale: TranslationProvider.of(context).flutterLocale,
+              supportedLocales: AppLocaleUtils.supportedLocales,
+              localizationsDelegates: GlobalMaterialLocalizations.delegates,
+              theme: ThemeData(
+                colorScheme: lightDynamic ?? ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+                useMaterial3: true,
+              ),
+              darkTheme: ThemeData(
+                colorScheme: darkDynamic ?? ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+                useMaterial3: true,
+              ),
+              themeMode: ThemeMode.system,
+            );
+          },
         ),
       ),
     );

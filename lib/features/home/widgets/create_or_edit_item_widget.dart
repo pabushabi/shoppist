@@ -7,6 +7,7 @@ import 'package:shoppist/features/home/blocs/tags_cubit/tags_cubit.dart';
 import 'package:shoppist/features/home/models/shopping_item_model.dart';
 import 'package:shoppist/features/home/models/tag_model.dart';
 import 'package:shoppist/features/home/widgets/add_or_edit_tag_dialog.dart';
+import 'package:shoppist/features/home/widgets/named_text_input.dart';
 import 'package:shoppist/i18n/strings.g.dart';
 
 class CreateOrEditItemWidget extends StatefulWidget {
@@ -23,15 +24,20 @@ class CreateOrEditItemWidget extends StatefulWidget {
 
 class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
   late final TextEditingController _nameController;
+  late final TextEditingController _descController;
   late final TextEditingController _countController;
   late final TextEditingController _maxCountController;
 
   int? _value;
 
+  bool isButtonEnabled = false;
+
   @override
   void initState() {
     super.initState();
     _nameController = TextEditingController(text: widget.editingItem?.name);
+    _descController =
+        TextEditingController(text: widget.editingItem?.description);
     _countController =
         TextEditingController(text: widget.editingItem?.amount.toString());
     _maxCountController =
@@ -44,6 +50,20 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
           .tags
           .indexOf(widget.editingItem!.tag!);
     }
+    _nameController.addListener(_updateButton);
+    _descController.addListener(_updateButton);
+    _countController.addListener(_updateButton);
+    _maxCountController.addListener(_updateButton);
+  }
+
+  void _updateButton() {
+    isButtonEnabled = [
+      _nameController.text,
+      _descController.text,
+      _countController.text,
+      _maxCountController.text,
+    ].every((el) => el.trim().isNotEmpty);
+    setState(() {});
   }
 
   @override
@@ -51,6 +71,7 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
     super.dispose();
     _countController.dispose();
     _nameController.dispose();
+    _descController.dispose();
     _maxCountController.dispose();
   }
 
@@ -59,93 +80,30 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
     return BottomSheetLayout(
       title: widget.editingItem == null ? t.create_new : t.edit,
       body: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              '${t.name}:',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(
-              width: 230,
-              child: TextField(
-                controller: _nameController,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 8,
-                  ),
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-              ),
-            ),
-          ],
+        NamedTextInput(
+          name: t.name,
+          controller: _nameController,
+          textFieldWidth: 230,
         ),
         const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              t.current_count,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(
-              width: 140,
-              child: TextField(
-                controller: _countController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 8,
-                  ),
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-              ),
-            ),
-          ],
+        NamedTextInput(
+          name: t.desc,
+          controller: _descController,
+          textFieldWidth: 230,
         ),
         const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              t.max_count,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(
-              width: 140,
-              child: TextField(
-                controller: _maxCountController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 8,
-                  ),
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-              ),
-            ),
-          ],
+        NamedTextInput(
+          name: t.current_count,
+          controller: _countController,
+          textFieldWidth: 140,
+          keyboardType: TextInputType.number,
+        ),
+        const SizedBox(height: 10),
+        NamedTextInput(
+          name: t.max_count,
+          controller: _maxCountController,
+          textFieldWidth: 140,
+          keyboardType: TextInputType.number,
         ),
         const SizedBox(height: 10),
         Text(
@@ -178,7 +136,7 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
                           shape: const StadiumBorder(),
                           label: Text(state.tags[index].name),
                           selectedColor:
-                              state.tags[index].color.withOpacity(.5),
+                              state.tags[index].color.withAlpha(100),
                           selected: _value == index,
                           onSelected: (bool selected) {
                             setState(() {
@@ -210,46 +168,7 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
         ),
         const SizedBox(height: 10),
         FilledButton(
-          onPressed: () {
-            if (widget.editingItem == null) {
-              context.read<ShoppingListCubit>().addItem(
-                    name: _nameController.text,
-                    count: double.parse(_countController.text),
-                    maxCount: double.parse(
-                      _maxCountController.text.isNotEmpty
-                          ? _maxCountController.text
-                          : _countController.text,
-                    ),
-                    tag: _value != null
-                        ? TagModel(
-                            name: context
-                                .read<TagsCubit>()
-                                .state
-                                .tags[_value!]
-                                .name,
-                            color: context
-                                .read<TagsCubit>()
-                                .state
-                                .tags[_value!]
-                                .color,
-                          )
-                        : null,
-                  );
-            } else {
-              context.read<ShoppingListCubit>().editItem(
-                    newItem: ShoppingItemModel(
-                      id: widget.editingItem!.id,
-                      name: _nameController.text,
-                      amount: double.parse(_countController.text),
-                      maxAmount: double.parse(_maxCountController.text),
-                      tag: _value != null
-                          ? context.read<TagsCubit>().state.tags[_value!]
-                          : null,
-                    ),
-                  );
-            }
-            Navigator.of(context).pop();
-          },
+          onPressed: isButtonEnabled ? saveItem : null,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Text(t.save),
@@ -257,6 +176,42 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
         ),
       ],
     );
+  }
+
+  void saveItem() {
+    final tags = context.read<TagsCubit>().state.tags;
+    final shoppingCubit = context.read<ShoppingListCubit>();
+
+    if (widget.editingItem == null) {
+      shoppingCubit.addItem(
+        name: _nameController.text,
+        description: _descController.text,
+        count: double.parse(_countController.text),
+        maxCount: double.parse(
+          _maxCountController.text.isNotEmpty
+              ? _maxCountController.text
+              : _countController.text,
+        ),
+        tag: _value != null
+            ? TagModel(
+                name: tags[_value!].name,
+                color: tags[_value!].color,
+              )
+            : null,
+      );
+    } else {
+      shoppingCubit.editItem(
+        newItem: ShoppingItemModel(
+          id: widget.editingItem!.id,
+          name: _nameController.text,
+          description: _descController.text,
+          amount: double.parse(_countController.text),
+          maxAmount: double.parse(_maxCountController.text),
+          tag: _value != null ? tags[_value!] : null,
+        ),
+      );
+    }
+    Navigator.of(context).pop();
   }
 
   void _showContextMenu(BuildContext context, Offset offset, TagModel tag) {

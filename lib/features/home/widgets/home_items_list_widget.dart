@@ -34,7 +34,6 @@ class _HomeItemsListWidgetState extends State<HomeItemsListWidget> {
               widget.items.length,
               (index) => ItemListWidget(
                 item: widget.items[index],
-                index: index,
               ),
             ),
           ),
