@@ -23,6 +23,21 @@ class ShoppingItemModel {
         tag: null,
       );
 
+  ShoppingItemModel copyWith({
+    String? id,
+    String? name,
+    double? amount,
+    double? maxAmount,
+    TagModel? tag,
+  }) =>
+      ShoppingItemModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        amount: amount ?? this.amount,
+        maxAmount: maxAmount ?? this.maxAmount,
+        tag: tag ?? this.tag,
+      );
+
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,

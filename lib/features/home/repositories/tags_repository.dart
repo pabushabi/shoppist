@@ -19,30 +19,24 @@ abstract class TagsRepository {
 class TagsRepositoryImpl extends TagsRepository {
   @override
   List<TagModel> getTags() {
-    final items = getIt<PrefsUtils>().getTags();
+    final savedTags = getIt<PrefsUtils>().getTags();
     List<TagModel> tags = [];
     List<ShoppingItemModel> localShoppingItems =
         getIt<ShoppingListCubit>().state.items;
-    if (items == null) {
+    if (savedTags == null || savedTags.isEmpty) {
       if (localShoppingItems.isNotEmpty) {
         for (var item in localShoppingItems) {
-          if (item.tag != null) {
+          if (item.tag != null && !tags.contains(item.tag)) {
             tags.add(item.tag!);
           }
         }
       }
-      return [];
-    }
-    for (var element in items) {
-      tags.add(TagModel.fromJson(jsonDecode(element)));
-    }
-    if (localShoppingItems.isNotEmpty) {
-      for (var item in localShoppingItems) {
-        if (item.tag != null && !tags.contains(item.tag)) {
-          tags.add(item.tag!);
-        }
+    } else {
+      for (var element in savedTags) {
+        tags.add(TagModel.fromJson(jsonDecode(element)));
       }
     }
+
     return tags;
   }
 

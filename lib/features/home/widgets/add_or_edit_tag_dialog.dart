@@ -22,6 +22,15 @@ class _AddOrEditTagDialogState extends State<AddOrEditTagDialog> {
   MaterialColor? chosenColor;
 
   @override
+  void initState() {
+    super.initState();
+
+    if (widget.tagToEdit != null) {
+      chosenColor = widget.tagToEdit!.materialColor;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Dialog(
       child: Padding(

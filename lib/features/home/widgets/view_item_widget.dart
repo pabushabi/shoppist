@@ -3,6 +3,7 @@ import 'package:shoppist/core/ui_kit/modal_bottom_sheets/bottom_sheet_layout.dar
 import 'package:shoppist/core/ui_kit/modal_bottom_sheets/custom_bottom_sheets.dart';
 import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoppist/features/home/widgets/add_tag_dialog.dart';
 import 'package:shoppist/i18n/strings.g.dart';
 
 class ViewItemWidget extends StatelessWidget {
@@ -98,6 +99,23 @@ class ViewItemWidget extends StatelessWidget {
                         ? state.items[index].tag?.name ?? ''
                         : 'no type',
                   ),
+                ),
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: ActionChip(
+                  backgroundColor: Colors.accents[14],
+                  label: Text('+ ${t.add}'),
+                  shape: const StadiumBorder(),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AddTagDialog(
+                        item: state.items[index],
+                      ),
+                    );
+                  },
                 ),
               ),
             const SizedBox(height: 40),

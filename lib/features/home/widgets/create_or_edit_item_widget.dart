@@ -31,15 +31,19 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
   @override
   void initState() {
     super.initState();
-    _nameController = widget.editingItem == null
-        ? TextEditingController()
-        : TextEditingController(text: widget.editingItem!.name);
-    _countController = widget.editingItem == null
-        ? TextEditingController()
-        : TextEditingController(text: '${widget.editingItem!.amount}');
-    _maxCountController = widget.editingItem == null
-        ? TextEditingController()
-        : TextEditingController(text: '${widget.editingItem!.maxAmount}');
+    _nameController = TextEditingController(text: widget.editingItem?.name);
+    _countController =
+        TextEditingController(text: widget.editingItem?.amount.toString());
+    _maxCountController =
+        TextEditingController(text: widget.editingItem?.maxAmount.toString());
+
+    if (widget.editingItem != null && widget.editingItem?.tag != null) {
+      _value = context
+          .read<TagsCubit>()
+          .state
+          .tags
+          .indexOf(widget.editingItem!.tag!);
+    }
   }
 
   @override
@@ -240,7 +244,7 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
                       maxAmount: double.parse(_maxCountController.text),
                       tag: _value != null
                           ? context.read<TagsCubit>().state.tags[_value!]
-                          : widget.editingItem!.tag,
+                          : null,
                     ),
                   );
             }

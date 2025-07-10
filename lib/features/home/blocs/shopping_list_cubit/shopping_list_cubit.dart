@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -110,37 +111,16 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
   }
 
   void minusOne({required int index}) {
-    final ShoppingItemModel newItem = ShoppingItemModel(
-      id: state.items[index].id,
-      name: state.items[index].name,
-      amount: (state.items[index].amount - 1 > 0)
-          ? state.items[index].amount - 1
-          : 0,
-      maxAmount: state.items[index].maxAmount,
-      tag: state.items[index].tag,
-    );
-    editItem(newItem: newItem);
+    final item = state.items[index];
+    editItem(newItem: item.copyWith(amount: max(item.amount - 1, 0)));
   }
 
   void plusOne({required int index}) {
-    final ShoppingItemModel newItem = ShoppingItemModel(
-      id: state.items[index].id,
-      name: state.items[index].name,
-      amount: state.items[index].amount + 1,
-      maxAmount: state.items[index].maxAmount,
-      tag: state.items[index].tag,
-    );
-    editItem(newItem: newItem);
+    final item = state.items[index];
+    editItem(newItem: item.copyWith(amount: item.amount + 1));
   }
 
   void resetCount({required int index}) {
-    final ShoppingItemModel newItem = ShoppingItemModel(
-      id: state.items[index].id,
-      name: state.items[index].name,
-      amount: 0,
-      maxAmount: state.items[index].maxAmount,
-      tag: state.items[index].tag,
-    );
-    editItem(newItem: newItem);
+    editItem(newItem: state.items[index].copyWith(amount: 0));
   }
 }

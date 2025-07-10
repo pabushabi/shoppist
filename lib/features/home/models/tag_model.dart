@@ -10,9 +10,13 @@ class TagModel extends Equatable {
     required this.color,
   });
 
+  String get hex => '0x${color.toARGB32().toRadixString(16).padLeft(8, '0')}';
+
+  MaterialColor get materialColor =>
+      Colors.primaries.firstWhere((color) => color.shade500 == this.color);
   Map<String, dynamic> toJson() => {
         'name': name,
-        'color': '$color'.split('0x')[1].replaceAll(')', ''),
+        'color': hex.replaceAll(RegExp(r'0x|[^a-fA-F0-9]'), ''),
       };
 
   factory TagModel.fromJson(Map<String, dynamic> json) => TagModel(
