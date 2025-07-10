@@ -56,8 +56,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               builder: (context, state) {
                 return DropdownButton2(
                   value: state.languageCode,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
                   ),
                   items: [
                     // DropdownMenuItem(
