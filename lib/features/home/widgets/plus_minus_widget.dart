@@ -14,33 +14,38 @@ class PlusMinusWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(
-          iconSize: 40,
-          onPressed: () =>
-              context.read<ShoppingListCubit>().minusOne(item),
-          onLongPress: () =>
-              context.read<ShoppingListCubit>().resetCount(item),
-          style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(
-              Colors.redAccent.shade100.withAlpha(150),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * .41,
+          child: IconButton(
+            iconSize: 40,
+            onPressed: () =>
+                context.read<ShoppingListCubit>().minusOne(item),
+            onLongPress: () =>
+                context.read<ShoppingListCubit>().resetCount(item),
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all(
+                Colors.red.shade100.withAlpha(150),
+              ),
             ),
+            icon: const Icon(Icons.exposure_minus_1),
           ),
-          icon: const Icon(Icons.exposure_minus_1),
         ),
-        const SizedBox(width: 30),
-        IconButton(
-          iconSize: 40,
-          style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(
-              Colors.lightGreenAccent.shade100.withAlpha(150),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * .41,
+          child: IconButton(
+            iconSize: 40,
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all(
+                Colors.green.shade100.withAlpha(150),
+              ),
             ),
+            onPressed: () =>
+                context.read<ShoppingListCubit>().plusOne(item),
+            onLongPress: () => context.read<ShoppingListCubit>().plusTen(item),
+            icon: const Icon(Icons.exposure_plus_1),
           ),
-          onPressed: () =>
-              context.read<ShoppingListCubit>().plusOne(item),
-          onLongPress: () => context.read<ShoppingListCubit>().plusTen(item),
-          icon: const Icon(Icons.exposure_plus_1),
         ),
       ],
     );

@@ -26,8 +26,10 @@ class TagsWidget extends StatelessWidget {
         padding: const EdgeInsets.all(2.0),
         child: ActionChip(
           backgroundColor: Colors.grey.withAlpha(100),
-          label: Text('+ ${t.add}'),
-          shape: StadiumBorder(side: BorderSide(color: Colors.grey.withAlpha(100))),
+          label: Text(t.add),
+          avatar: Icon(Icons.add, color: Theme.of(context).hintColor,),
+          shape: const StadiumBorder(),
+          side: BorderSide.none,
           onPressed: () {
             showDialog(
               context: context,
