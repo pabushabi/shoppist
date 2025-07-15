@@ -11,7 +11,9 @@ import 'package:shoppist/features/l18n/blocs/l18n_cubit.dart';
 import 'package:shoppist/features/l18n/repositories/l18n_repository.dart';
 import 'package:shoppist/features/settings/blocs/family_code/family_code_cubit.dart';
 import 'package:shoppist/features/settings/blocs/notifications/notifications_cubit.dart';
+import 'package:shoppist/features/settings/blocs/theme/app_theme_cubit.dart';
 import 'package:shoppist/features/settings/repositories/notifications_repository.dart';
+import 'package:shoppist/features/settings/repositories/theme_repository.dart';
 
 /// Инстанс [GetIt]
 final GetIt getIt = GetIt.instance;
@@ -48,4 +50,7 @@ Future<void> init() async {
   getIt.registerLazySingleton<L18nRepository>(
     () => L18nRepositoryImpl(),
   );
+  //===================THEME===========
+  getIt.registerLazySingleton<ThemeRepository>(() => ThemeRepositoryImpl());
+  getIt.registerLazySingleton(() => AppThemeCubit(getIt()));
 }

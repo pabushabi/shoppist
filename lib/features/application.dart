@@ -9,6 +9,7 @@ import 'package:shoppist/features/home/blocs/tags_cubit/tags_cubit.dart';
 import 'package:shoppist/features/l18n/blocs/l18n_cubit.dart';
 import 'package:shoppist/features/settings/blocs/family_code/family_code_cubit.dart';
 import 'package:shoppist/features/settings/blocs/notifications/notifications_cubit.dart';
+import 'package:shoppist/features/settings/blocs/theme/app_theme_cubit.dart';
 import 'package:shoppist/i18n/strings.g.dart';
 
 class Application extends StatelessWidget {
@@ -29,6 +30,7 @@ class Application extends StatelessWidget {
         BlocProvider<NotificationsCubit>(
           create: (context) => getIt<NotificationsCubit>(),
         ),
+        BlocProvider<AppThemeCubit>(create: (context) => getIt<AppThemeCubit>()),
       ],
       child: BlocListener<L18nCubit, L18nState>(
         listenWhen: (prev, next) => prev.languageCode != next.languageCode,
@@ -36,22 +38,28 @@ class Application extends StatelessWidget {
             LocaleSettings.setLocaleRaw(state.languageCode),
         child: DynamicColorBuilder(
           builder: (lightDynamic, darkDynamic) {
-            return MaterialApp.router(
-              routerConfig: router,
-              title: 'shoppist',
-              debugShowCheckedModeBanner: false,
-              locale: TranslationProvider.of(context).flutterLocale,
-              supportedLocales: AppLocaleUtils.supportedLocales,
-              localizationsDelegates: GlobalMaterialLocalizations.delegates,
-              theme: ThemeData(
-                colorScheme: lightDynamic ?? ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-                useMaterial3: true,
-              ),
-              darkTheme: ThemeData(
-                colorScheme: darkDynamic ?? ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-                useMaterial3: true,
-              ),
-              themeMode: ThemeMode.system,
+            return BlocBuilder<AppThemeCubit, ThemeMode>(
+              builder: (context, currentTheme) {
+                return MaterialApp.router(
+                  routerConfig: router,
+                  title: 'shoppist',
+                  debugShowCheckedModeBanner: false,
+                  locale: TranslationProvider.of(context).flutterLocale,
+                  supportedLocales: AppLocaleUtils.supportedLocales,
+                  localizationsDelegates: GlobalMaterialLocalizations.delegates,
+                  theme: ThemeData(
+                    colorScheme: lightDynamic ??
+                        ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+                    useMaterial3: true,
+                  ),
+                  darkTheme: ThemeData(
+                    colorScheme: darkDynamic ??
+                        ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+                    useMaterial3: true,
+                  ),
+                  themeMode: currentTheme,
+                );
+              },
             );
           },
         ),

@@ -67,21 +67,31 @@ class PrefsUtils {
     return false;
   }
 
-  bool getIsNearlyEndEnabled()  {
+  bool getIsNearlyEndEnabled() {
     final isEnabled = _prefs.getBool(PrefsKeys.isNearlyEndEnabled);
     if (isEnabled != null) return isEnabled;
     return false;
   }
 
-  bool getIsDailyEnabled()  {
+  bool getIsDailyEnabled() {
     final isEnabled = _prefs.getBool(PrefsKeys.isDailyEnabled);
     if (isEnabled != null) return isEnabled;
     return false;
   }
 
-  String getDailyTime()  {
+  String getDailyTime() {
     final time = _prefs.getString(PrefsKeys.dailyTime);
     if (time != null) return time;
+    return '';
+  }
+
+  Future<void> setTheme(String theme) async {
+    await _prefs.setString(PrefsKeys.theme, theme);
+  }
+
+  String getTheme() {
+    final theme = _prefs.getString(PrefsKeys.theme);
+    if (theme != null) return theme;
     return '';
   }
 }

@@ -148,6 +148,7 @@ class TranslationsPushEn {
 	String get left => 'left';
 	String get productsRanOut => 'Products are running out';
 	String get daily_report => 'Daily report';
+	String get not_set => 'Not set';
 }
 
 // Path: widget
@@ -224,6 +225,7 @@ extension on Translations {
 			case 'push.left': return 'left';
 			case 'push.productsRanOut': return 'Products are running out';
 			case 'push.daily_report': return 'Daily report';
+			case 'push.not_set': return 'Not set';
 			case 'widget.wowEmpty': return 'Wow, it`s empty...';
 			case 'widget.goodWork': return 'Good work!';
 			default: return null;

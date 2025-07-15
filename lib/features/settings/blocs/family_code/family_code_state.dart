@@ -1,7 +1,7 @@
 part of 'family_code_cubit.dart';
 
 class FamilyCodeState extends Equatable {
-  final String code;
+  final String? code;
 
   const FamilyCodeState({required this.code});
 

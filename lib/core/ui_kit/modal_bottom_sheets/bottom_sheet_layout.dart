@@ -20,7 +20,7 @@ class BottomSheetLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: padding ??
+        padding: padding?.copyWith(top: 10) ??
             EdgeInsets.only(
               top: 20,
               left: 40,
@@ -37,22 +37,22 @@ class BottomSheetLayout extends StatelessWidget {
             Center(
               child: Container(
                 height: 4,
-                width: 30,
+                width: 40,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.black12,
+                  color: Theme.of(context).highlightColor,
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             if (title != null)
               Padding(
-                padding: const EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.only(bottom: 10),
                 child: Text(
                   title!,
                   style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

@@ -7,7 +7,7 @@ import 'package:uuid/uuid.dart';
 part 'family_code_state.dart';
 
 class FamilyCodeCubit extends Cubit<FamilyCodeState> {
-  FamilyCodeCubit() : super(const FamilyCodeState(code: '')) {
+  FamilyCodeCubit() : super(const FamilyCodeState(code: null)) {
     init();
   }
 

@@ -145,6 +145,7 @@ class _TranslationsPushRu implements TranslationsPushEn {
 	@override String get left => 'осталось';
 	@override String get productsRanOut => 'Продукты заканчиваются';
 	@override String get daily_report => 'Ежедневный отчёт';
+	@override String get not_set => 'Не задано';
 }
 
 // Path: widget
@@ -221,6 +222,7 @@ extension on TranslationsRu {
 			case 'push.left': return 'осталось';
 			case 'push.productsRanOut': return 'Продукты заканчиваются';
 			case 'push.daily_report': return 'Ежедневный отчёт';
+			case 'push.not_set': return 'Не задано';
 			case 'widget.wowEmpty': return 'Ух ты, ничего нет...';
 			case 'widget.goodWork': return 'Хорошая работа!';
 			default: return null;

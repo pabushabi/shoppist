@@ -33,7 +33,10 @@ class DescriptionWidget extends StatelessWidget {
               context,
               item,
             ),
-            icon: const Icon(Icons.edit),
+            icon: Icon(
+              Icons.edit,
+              color: Theme.of(context).hintColor,
+            ),
           ),
         ],
       ),

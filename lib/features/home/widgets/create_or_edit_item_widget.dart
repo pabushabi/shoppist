@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shoppist/core/ui_kit/modal_bottom_sheets/bottom_sheet_layout.dart';
+import 'package:shoppist/core/ui_kit/substrate_widget.dart';
 import 'package:shoppist/features/home/blocs/shopping_list_cubit/shopping_list_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppist/features/home/blocs/tags_cubit/tags_cubit.dart';
 import 'package:shoppist/features/home/models/shopping_item_model.dart';
 import 'package:shoppist/features/home/models/tag_model.dart';
-import 'package:shoppist/features/home/widgets/add_or_edit_tag_dialog.dart';
+import 'package:shoppist/features/home/widgets/item_tags_widget.dart';
 import 'package:shoppist/features/home/widgets/named_text_input.dart';
 import 'package:shoppist/i18n/strings.g.dart';
 
@@ -50,6 +51,7 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
           .tags
           .indexOf(widget.editingItem!.tag!);
     }
+    _updateButton();
     _nameController.addListener(_updateButton);
     _descController.addListener(_updateButton);
     _countController.addListener(_updateButton);
@@ -79,99 +81,69 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
   Widget build(BuildContext context) {
     return BottomSheetLayout(
       title: widget.editingItem == null ? t.create_new : t.edit,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       body: [
-        NamedTextInput(
-          name: t.name,
-          controller: _nameController,
-          textFieldWidth: 230,
-        ),
-        const SizedBox(height: 10),
-        NamedTextInput(
-          name: t.desc,
-          controller: _descController,
-          textFieldWidth: 230,
-        ),
-        const SizedBox(height: 10),
-        NamedTextInput(
-          name: t.current_count,
-          controller: _countController,
-          textFieldWidth: 140,
-          keyboardType: TextInputType.number,
-        ),
-        const SizedBox(height: 10),
-        NamedTextInput(
-          name: t.max_count,
-          controller: _maxCountController,
-          textFieldWidth: 140,
-          keyboardType: TextInputType.number,
-        ),
-        const SizedBox(height: 10),
-        Text(
-          t.tag.tag,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 10),
-        BlocBuilder<TagsCubit, TagsState>(
-          buildWhen: (prev, next) => prev.tags != next.tags,
-          builder: (context, state) {
-            return Wrap(
-              children: [
-                ...List<Widget>.generate(
-                  state.tags.length,
-                  (int index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: GestureDetector(
-                        key: GlobalKey(),
-                        onLongPressStart: (details) => _showContextMenu(
-                          context,
-                          details.globalPosition,
-                          state.tags[index],
-                        ),
-                        child: ChoiceChip(
-                          key: UniqueKey(),
-                          shape: const StadiumBorder(),
-                          label: Text(state.tags[index].name),
-                          selectedColor:
-                              state.tags[index].color.withAlpha(100),
-                          selected: _value == index,
-                          onSelected: (bool selected) {
-                            setState(() {
-                              _value = selected ? index : null;
-                            });
-                          },
-                        ),
+        SubstrateWidget(
+          child: Column(
+            children: [
+              NamedTextInput(
+                name: t.name,
+                controller: _nameController,
+                textFieldWidth: 230,
+              ),
+              const SizedBox(height: 10),
+              NamedTextInput(
+                name: t.desc,
+                controller: _descController,
+                textFieldWidth: 230,
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * .41,
+                      child: NamedTextInput(
+                        name: t.current_count,
+                        controller: _countController,
+                        textFieldWidth: 140,
+                        keyboardType: TextInputType.number,
                       ),
-                    );
-                  },
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * .41,
+                      child: NamedTextInput(
+                        name: t.max_count,
+                        controller: _maxCountController,
+                        textFieldWidth: 140,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: ActionChip(
-                    backgroundColor: Colors.accents[14],
-                    label: Text('+ ${t.add}'),
-                    shape: const StadiumBorder(),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => const AddOrEditTagDialog(),
-                      );
-                    },
+              ),
+              const SizedBox(height: 10),
+              ItemTagsWidget(
+                initialValue: _value ?? -1,
+                onSelected: (se) {
+                  _value = se;
+                  setState(() {});
+                },
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: FilledButton(
+                  onPressed: isButtonEnabled ? saveItem : null,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(t.save),
                   ),
                 ),
-              ],
-            );
-          },
-        ),
-        const SizedBox(height: 10),
-        FilledButton(
-          onPressed: isButtonEnabled ? saveItem : null,
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Text(t.save),
+              ),
+            ],
           ),
         ),
       ],
@@ -212,45 +184,5 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
       );
     }
     Navigator.of(context).pop();
-  }
-
-  void _showContextMenu(BuildContext context, Offset offset, TagModel tag) {
-    HapticFeedback.vibrate();
-    final RenderBox overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox;
-
-    final RelativeRect position = RelativeRect.fromRect(
-      Rect.fromPoints(offset, offset),
-      Offset.zero & overlay.size,
-    );
-
-    showMenu(
-      context: context,
-      position: position,
-      items: [
-        PopupMenuItem(
-          value: 'edit',
-          child: Text(t.edit),
-        ),
-        PopupMenuItem(
-          value: 'delete',
-          child: Text(t.delete),
-        ),
-      ],
-    ).then((selectedOption) {
-      if (selectedOption != null) {
-        switch (selectedOption) {
-          case 'edit':
-            showDialog(
-              context: context,
-              builder: (context) => AddOrEditTagDialog(tagToEdit: tag),
-            );
-            break;
-          case 'delete':
-            context.read<TagsCubit>().removeTag(tag);
-            break;
-        }
-      }
-    });
   }
 }

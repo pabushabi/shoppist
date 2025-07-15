@@ -18,35 +18,26 @@ class NamedTextInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
+    return TextField(
+      controller: controller,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        hint: Text(
           name,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Theme.of(context).hintColor),
         ),
-        SizedBox(
-          width: textFieldWidth ?? 230,
-          child: TextField(
-            controller: controller,
-            keyboardType: keyboardType,
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 8,
-              ),
-              filled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-            ),
-            onChanged: (_) => onEditingComplete,
-          ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 8,
         ),
-      ],
+        filled: true,
+        fillColor: Colors.grey.withAlpha(20),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide.none,
+        ),
+      ),
+      onChanged: (_) => onEditingComplete,
     );
   }
 }

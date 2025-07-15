@@ -17,6 +17,7 @@ class PrefsKeys {
   static const isNearlyEndEnabled = 'PUSH_NEARLY_ENABLED';
   static const isDailyEnabled = 'PUSH_DAILY_ENABLED';
   static const dailyTime = 'PUSH_DAILY_TIME';
+  static const theme = 'THEME';
 }
 
 class ColorTexts {

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 class NotificationSettingsModel extends Equatable {
   final bool isNotificationsEnabled;
@@ -13,7 +14,18 @@ class NotificationSettingsModel extends Equatable {
     this.dailyTime,
   });
 
+  String? get dailyTimeFormatted => dailyTime != null
+      ? '${dailyTime!.split(':').first.padLeft(2, '0')}:${dailyTime!.split(':').last.padLeft(2, '0')}'
+      : null;
+
+  TimeOfDay? get dailyTimeOfDay => dailyTime != null
+      ? TimeOfDay(
+          hour: int.parse(dailyTime!.split(':').first),
+          minute: int.parse(dailyTime!.split(':').last))
+      : null;
+
   int? get getHour => int.tryParse(dailyTime!.split(':').first);
+
   int? get getMinute => int.tryParse(dailyTime!.split(':').last);
 
   factory NotificationSettingsModel.initial() =>
