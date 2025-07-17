@@ -45,6 +45,10 @@ class EditFamilyCodeDialog extends StatelessWidget {
                   width: 180,
                   child: TextField(
                     controller: newCodeController,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(8),
+                      FilteringTextInputFormatter.allow(RegExp(r'[A-z0-9]')),
+                    ],
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 20,
@@ -79,7 +83,7 @@ class EditFamilyCodeDialog extends StatelessWidget {
                   onPressed: () {
                     context
                         .read<FamilyCodeCubit>()
-                        .changeCode(newCodeController.text);
+                        .changeCode(newCodeController.text.trim());
                     Navigator.pop(context);
                     Navigator.pop(context);
                     context.read<ShoppingListCubit>().getItems();

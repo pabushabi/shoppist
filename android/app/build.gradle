@@ -1,8 +1,9 @@
 plugins {
     id 'com.android.application'
-    id 'com.google.gms.google-services' version '4.3.15' apply false
+    id 'com.google.gms.google-services' version '4.4.3' apply false
     id 'kotlin-android'
     id "dev.flutter.flutter-gradle-plugin"
+    id "org.jetbrains.kotlin.plugin.compose"
 //    id 'androidx.glance:glance-appwidget'
 }
 
@@ -26,17 +27,17 @@ if (flutterVersionName == null) {
 
 android {
     compileSdkVersion 35
-    ndkVersion "26.1.10909125"
+    ndkVersion "29.0.13113456"
     namespace 'com.pabushabi.shoppist'
 
     compileOptions {
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_18
-        targetCompatibility JavaVersion.VERSION_18
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 
     kotlinOptions {
-        jvmTarget = 18
+        jvmTarget = 21
     }
 
     sourceSets {
@@ -46,7 +47,7 @@ android {
     defaultConfig {
         applicationId "com.pabushabi.shoppist"
         minSdkVersion 23
-        targetSdkVersion 34
+        targetSdkVersion 36
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
