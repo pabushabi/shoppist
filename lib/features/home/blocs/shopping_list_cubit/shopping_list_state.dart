@@ -11,6 +11,19 @@ class ShoppingListState extends Equatable {
     this.sortModel = SortModel.none,
   });
 
+  List<ShoppingItemModel> get lowItems =>
+      items.where((item) => item.amount <= item.maxAmount / 2).toList()
+        ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
+  List<ShoppingItemModel> get mediumItems => items
+      .where(
+        (item) =>
+            (item.amount > item.maxAmount / 2) &&
+            (item.amount <= item.maxAmount * .8),
+      )
+      .toList()
+    ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
   ShoppingListState copyWith({
     List<ShoppingItemModel>? items,
     ShoppingItemModel? lastDeleted,
@@ -20,6 +33,12 @@ class ShoppingListState extends Equatable {
         items ?? this.items,
         lastDeleted: lastDeleted ?? this.lastDeleted,
         sortModel: sortModel ?? this.sortModel,
+      );
+
+  ShoppingListState resetLastDelete() => ShoppingListState(
+        items,
+        sortModel: sortModel,
+        lastDeleted: null,
       );
 
   factory ShoppingListState.initial() => const ShoppingListState([]);

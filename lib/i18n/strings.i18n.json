@@ -19,6 +19,8 @@
   "empty": "It`s too empty here, maybe create a new one?",
   "deleted": "Deleted",
   "delete": "Delete",
+  "deleting": "Element deleting",
+  "wantToDelete": "Are you really want to delete  ",
   "undo": "Undo",
   "add": "Add",
   "settings": {
@@ -71,5 +73,10 @@
   "widget": {
     "wowEmpty": "Wow, it`s empty...",
     "goodWork": "Good work!"
+  },
+  "shop": {
+    "list": "Shopping list",
+    "low": "Items that are out of stock:",
+    "medium": "Items worth looking at:"
   }
 }

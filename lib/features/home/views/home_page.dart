@@ -22,7 +22,8 @@ class HomePage extends StatelessWidget {
         title: const Text('shoppist'),
         actions: [
           BlocBuilder<ShoppingListCubit, ShoppingListState>(
-            buildWhen: (previous, current) => previous.sortModel != current.sortModel,
+            buildWhen: (previous, current) =>
+                previous.sortModel != current.sortModel,
             builder: (context, state) => PopupMenuButton(
               icon: const Icon(Icons.sort),
               initialValue: state.sortModel,
@@ -80,9 +81,22 @@ class HomePage extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () => showCreateItemBottomSheet(context),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton.extended(
+            label: const Text('Shop'),
+            icon: const Icon(Icons.checklist),
+            onPressed: () => showShopBottomSheet(context),
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () => showCreateItemBottomSheet(context),
+          ),
+        ],
       ),
       resizeToAvoidBottomInset: true,
     );

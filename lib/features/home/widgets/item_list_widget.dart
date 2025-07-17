@@ -59,6 +59,7 @@ class ItemListWidget extends StatelessWidget {
               IconButton(
                 onPressed: () =>
                     context.read<ShoppingListCubit>().minusOne(item),
+                onLongPress: () => context.read<ShoppingListCubit>().resetCount(item),
                 icon: const Icon(Icons.exposure_minus_1_rounded),
                 style: ButtonStyle(
                   backgroundColor:

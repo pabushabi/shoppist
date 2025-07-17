@@ -20,7 +20,12 @@ class BottomSheetLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: padding?.copyWith(top: 10) ??
+        padding: padding?.copyWith(
+              top: 10,
+              bottom: needKeyboardPadding
+                  ? MediaQuery.of(context).viewInsets.bottom
+                  : null,
+            ) ??
             EdgeInsets.only(
               top: 20,
               left: 40,

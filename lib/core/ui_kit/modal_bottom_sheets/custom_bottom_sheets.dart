@@ -4,6 +4,7 @@ import 'package:shoppist/features/home/widgets/create_or_edit_item_widget.dart';
 import 'package:shoppist/features/home/widgets/edit_tags_widget.dart';
 import 'package:shoppist/features/home/widgets/view_item_widget.dart';
 import 'package:shoppist/features/settings/widgets/settings_widget.dart';
+import 'package:shoppist/features/shop/widgets/shop_widget.dart';
 
 Future basicBottomSheet(
   BuildContext context, {
@@ -63,3 +64,6 @@ Future<void> showSettingsBottomSheet(BuildContext context) =>
 
 Future<void> showTagEditBottomSheet(BuildContext context) =>
     basicBottomSheet(context, child: const EditTagsWidget());
+
+void showShopBottomSheet(BuildContext context) =>
+    basicBottomSheet(context, child: const ShopWidget());

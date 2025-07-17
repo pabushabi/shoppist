@@ -49,6 +49,8 @@ class TranslationsRu implements Translations {
 	@override String get empty => 'Что-то пустовато тут, может создать что-нибудь?';
 	@override String get deleted => 'Удален';
 	@override String get delete => 'Удалить';
+	@override String get deleting => 'Удаление элемента';
+	@override String get wantToDelete => 'Вы действительно хотите удалить ';
 	@override String get undo => 'Отменить';
 	@override String get add => 'Добавить';
 	@override late final _TranslationsSettingsRu settings = _TranslationsSettingsRu._(_root);
@@ -57,6 +59,7 @@ class TranslationsRu implements Translations {
 	@override late final _TranslationsSortRu sort = _TranslationsSortRu._(_root);
 	@override late final _TranslationsPushRu push = _TranslationsPushRu._(_root);
 	@override late final _TranslationsWidgetRu widget = _TranslationsWidgetRu._(_root);
+	@override late final _TranslationsShopRu shop = _TranslationsShopRu._(_root);
 }
 
 // Path: tag
@@ -159,6 +162,18 @@ class _TranslationsWidgetRu implements TranslationsWidgetEn {
 	@override String get goodWork => 'Хорошая работа!';
 }
 
+// Path: shop
+class _TranslationsShopRu implements TranslationsShopEn {
+	_TranslationsShopRu._(this._root);
+
+	final TranslationsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get list => 'Список покупок';
+	@override String get low => 'Товары, которые закончились:';
+	@override String get medium => 'Товары, на которые стоит обратить внимание:';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsRu {
@@ -182,6 +197,8 @@ extension on TranslationsRu {
 			case 'empty': return 'Что-то пустовато тут, может создать что-нибудь?';
 			case 'deleted': return 'Удален';
 			case 'delete': return 'Удалить';
+			case 'deleting': return 'Удаление элемента';
+			case 'wantToDelete': return 'Вы действительно хотите удалить ';
 			case 'undo': return 'Отменить';
 			case 'add': return 'Добавить';
 			case 'settings.settings': return 'Настройки';
@@ -225,6 +242,9 @@ extension on TranslationsRu {
 			case 'push.not_set': return 'Не задано';
 			case 'widget.wowEmpty': return 'Ух ты, ничего нет...';
 			case 'widget.goodWork': return 'Хорошая работа!';
+			case 'shop.list': return 'Список покупок';
+			case 'shop.low': return 'Товары, которые закончились:';
+			case 'shop.medium': return 'Товары, на которые стоит обратить внимание:';
 			default: return null;
 		}
 	}

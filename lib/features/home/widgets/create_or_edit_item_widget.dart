@@ -61,7 +61,7 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
   void _updateButton() {
     isButtonEnabled = [
       _nameController.text,
-      _descController.text,
+      // _descController.text,
       _countController.text,
       _maxCountController.text,
     ].every((el) => el.trim().isNotEmpty);

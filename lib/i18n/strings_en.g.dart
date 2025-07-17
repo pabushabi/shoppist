@@ -52,6 +52,8 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	String get empty => 'It`s too empty here, maybe create a new one?';
 	String get deleted => 'Deleted';
 	String get delete => 'Delete';
+	String get deleting => 'Element deleting';
+	String get wantToDelete => 'Are you really want to delete  ';
 	String get undo => 'Undo';
 	String get add => 'Add';
 	late final TranslationsSettingsEn settings = TranslationsSettingsEn._(_root);
@@ -60,6 +62,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final TranslationsSortEn sort = TranslationsSortEn._(_root);
 	late final TranslationsPushEn push = TranslationsPushEn._(_root);
 	late final TranslationsWidgetEn widget = TranslationsWidgetEn._(_root);
+	late final TranslationsShopEn shop = TranslationsShopEn._(_root);
 }
 
 // Path: tag
@@ -162,6 +165,18 @@ class TranslationsWidgetEn {
 	String get goodWork => 'Good work!';
 }
 
+// Path: shop
+class TranslationsShopEn {
+	TranslationsShopEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get list => 'Shopping list';
+	String get low => 'Items that are out of stock:';
+	String get medium => 'Items worth looking at:';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on Translations {
@@ -185,6 +200,8 @@ extension on Translations {
 			case 'empty': return 'It`s too empty here, maybe create a new one?';
 			case 'deleted': return 'Deleted';
 			case 'delete': return 'Delete';
+			case 'deleting': return 'Element deleting';
+			case 'wantToDelete': return 'Are you really want to delete  ';
 			case 'undo': return 'Undo';
 			case 'add': return 'Add';
 			case 'settings.settings': return 'Settings';
@@ -228,6 +245,9 @@ extension on Translations {
 			case 'push.not_set': return 'Not set';
 			case 'widget.wowEmpty': return 'Wow, it`s empty...';
 			case 'widget.goodWork': return 'Good work!';
+			case 'shop.list': return 'Shopping list';
+			case 'shop.low': return 'Items that are out of stock:';
+			case 'shop.medium': return 'Items worth looking at:';
 			default: return null;
 		}
 	}

@@ -89,6 +89,9 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
         _repository.deleteShoppingListItem(item);
         getItems();
         emit(state.copyWith(lastDeleted: item));
+        Timer(const Duration(seconds: 3), () {
+          permanentlyDelete();
+        });
       }
     } else {
       emit(state.copyWith(items: []));
@@ -106,6 +109,10 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
         tag: state.lastDeleted!.tag,
       );
     }
+  }
+
+  void permanentlyDelete() {
+    emit(state.resetLastDelete());
   }
 
   void editItem({required ShoppingItemModel newItem}) {
@@ -126,6 +133,11 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
   void plusTen(ShoppingItemModel item) {
     final chosenItem = state.items.firstWhere((el) => el.id == item.id);
     editItem(newItem: chosenItem.copyWith(amount: chosenItem.amount + 10));
+  }
+
+  void plusAll(ShoppingItemModel item) {
+    final chosenItem = state.items.firstWhere((el) => el.id == item.id);
+    editItem(newItem: chosenItem.copyWith(amount: chosenItem.maxAmount));
   }
 
   void resetCount(ShoppingItemModel item) {
