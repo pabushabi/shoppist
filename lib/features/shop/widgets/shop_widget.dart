@@ -13,7 +13,6 @@ class ShopWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomSheetLayout(
       title: context.t.shop.list,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       body: [
         SubstrateWidget(
           child: BlocBuilder<ShoppingListCubit, ShoppingListState>(

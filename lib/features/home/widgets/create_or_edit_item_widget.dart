@@ -81,7 +81,7 @@ class CreateOrEditItemWidgetState extends State<CreateOrEditItemWidget> {
   Widget build(BuildContext context) {
     return BottomSheetLayout(
       title: widget.editingItem == null ? t.create_new : t.edit,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      needKeyboardPadding: true,
       body: [
         SubstrateWidget(
           child: Column(

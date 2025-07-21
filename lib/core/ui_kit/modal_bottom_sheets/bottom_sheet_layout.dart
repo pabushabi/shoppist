@@ -12,7 +12,7 @@ class BottomSheetLayout extends StatelessWidget {
     super.key,
     this.title,
     this.padding,
-    this.needKeyboardPadding = true,
+    this.needKeyboardPadding = false,
     this.crossAxisAlignment = CrossAxisAlignment.center,
   });
 
@@ -23,16 +23,16 @@ class BottomSheetLayout extends StatelessWidget {
         padding: padding?.copyWith(
               top: 10,
               bottom: needKeyboardPadding
-                  ? MediaQuery.of(context).viewInsets.bottom
-                  : null,
+                  ? MediaQuery.of(context).viewInsets.bottom + (padding?.bottom ?? 0)
+                  : padding?.bottom,
             ) ??
             EdgeInsets.only(
-              top: 20,
-              left: 40,
-              right: 40,
+              top: 10,
+              left: 10,
+              right: 10,
               bottom: needKeyboardPadding
-                  ? MediaQuery.of(context).viewInsets.bottom + 40
-                  : 40,
+                  ? MediaQuery.of(context).viewInsets.bottom + 20
+                  : 20,
             ),
         child: Column(
           mainAxisSize: MainAxisSize.max,

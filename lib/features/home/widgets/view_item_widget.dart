@@ -25,7 +25,6 @@ class ViewItemWidget extends StatelessWidget {
 
         return BottomSheetLayout(
           crossAxisAlignment: CrossAxisAlignment.start,
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           body: [
             ItemTitleWidget(currentItem),
             const SizedBox(height: 10),
