@@ -30,7 +30,8 @@ class Application extends StatelessWidget {
         BlocProvider<NotificationsCubit>(
           create: (context) => getIt<NotificationsCubit>(),
         ),
-        BlocProvider<AppThemeCubit>(create: (context) => getIt<AppThemeCubit>()),
+        BlocProvider<AppThemeCubit>(
+            create: (context) => getIt<AppThemeCubit>()),
       ],
       child: BlocListener<L18nCubit, L18nState>(
         listenWhen: (prev, next) => prev.languageCode != next.languageCode,
@@ -54,7 +55,10 @@ class Application extends StatelessWidget {
                   ),
                   darkTheme: ThemeData(
                     colorScheme: darkDynamic ??
-                        ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+                        ColorScheme.fromSeed(
+                          seedColor: Colors.deepOrange,
+                          brightness: Brightness.dark,
+                        ),
                     useMaterial3: true,
                   ),
                   themeMode: currentTheme,
